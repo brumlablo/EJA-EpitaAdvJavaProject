@@ -32,11 +32,12 @@ public class IdentityJDBCDAO {
 	 */
 	public IdentityJDBCDAO() {
 		//ALTERNATIVE: read those info from file
+		LOGGER.info("nasrat");
 		try {
 			getConnection();
 		}catch(SQLException e){
 			System.out.println("Exception when connecting to database.");
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.exit(-1); // failure
 		}
 	}
@@ -46,9 +47,11 @@ public class IdentityJDBCDAO {
 	 * @return current connection
 	 * @throws Exception 
 	 */
-	private Connection getConnection() throws Exception{
-		try{
+	private Connection getConnection() throws Exception {
+		
+		try {
 			this.currCon.getSchema();
+			LOGGER.info("connected to this schema:  {}", currCon.getSchema());
 		}
 		catch(Exception e){
 			
@@ -59,9 +62,11 @@ public class IdentityJDBCDAO {
 				String user = config.getUser();
 				String password = config.getPwd();
 				String connectionString = config.getCon();
+				//System.out.println(user, password, connectionString);
+				LOGGER.info("connection props: {},{},{}", user, password, connectionString);
+				
 				this.currCon = DriverManager.getConnection(connectionString, user, password);
 				LOGGER.info("connected to this schema:  {}", currCon.getSchema());
-				return this.currCon;
 			}
 			catch(Exception ex){
 				//print stack trace
@@ -70,6 +75,7 @@ public class IdentityJDBCDAO {
 				
 			}
 		}
+		return currCon;
 
 	}
 	
@@ -217,7 +223,6 @@ public class IdentityJDBCDAO {
 			LOGGER.debug("=> deleteIdentity EXCEPTION");
 			System.exit(-1);
 		}
-}
 	}
 	
 	/**
@@ -250,6 +255,7 @@ public class IdentityJDBCDAO {
 			LOGGER.debug("=> readAll EXCEPTION");
 			System.exit(-1);
 		}
+		return identities;
 	}
 	
 }
