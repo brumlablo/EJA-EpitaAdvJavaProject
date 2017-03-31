@@ -18,7 +18,8 @@ public class Configuration {
 		
 		
 		String filePath = System.getProperty("fr.epita.iam.confFilePath");
-		props.load(new FileInputStream(new File(filePath)));
+		
+		props.load(new FileInputStream(new File(filePath))); // file not found? >> exception
 		//LOGGER.info("config file props: {}",props);
 	}
 

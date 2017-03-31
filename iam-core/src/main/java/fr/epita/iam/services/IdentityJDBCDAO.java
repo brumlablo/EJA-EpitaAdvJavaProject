@@ -30,19 +30,15 @@ public class IdentityJDBCDAO {
 	/**
 	 * Constructor with connection to DBS
 	 */
-	public IdentityJDBCDAO() {
+	public IdentityJDBCDAO() throws SQLException {
 		
 		try {
 			
 			getConnection();
-			
-		} catch(SQLException ex){
-			System.out.println("SQL Exception when connecting to database.");
-			ex.printStackTrace();
-			System.exit(-1); // world failure
-		} catch (Exception exx) {
-			System.out.println("Exception when connecting to database.");
-			exx.printStackTrace();
+		}
+		catch (Exception e) {
+			System.err.println("Exception when connecting to database.");
+			e.printStackTrace();
 			System.exit(-1); // world failure
 		}
 	}
@@ -50,19 +46,18 @@ public class IdentityJDBCDAO {
 	/**
 	 * Connecting to DBS with given access parameters
 	 * @return current connection
-	 * @throws Exception 
+	 * @throws SQLException 
 	 */
-	private Connection getConnection() throws Exception {
+	private Connection getConnection() throws SQLException {
 		
 		try {
 			this.currCon.getSchema();
 			LOGGER.info("connected to this schema:  {}", currCon.getSchema());
 		}
 		catch(Exception e){
-			
+			Configuration config;
 			try {
-				
-				Configuration config = new Configuration();
+				config = new Configuration();
 				
 				String user = config.getUser();
 				String password = config.getPwd();
@@ -72,14 +67,20 @@ public class IdentityJDBCDAO {
 				
 				this.currCon = DriverManager.getConnection(connectionString, user, password);
 				LOGGER.info("connected to this schema:  {}", currCon.getSchema());
-			}
-			catch(Exception ex){
-				throw ex;
 				
+			}
+			catch (IOException e1) {
+				System.err.println("EXCEPTION Config file not found.");
+				e.printStackTrace();
+				System.exit(1);
+			} 
+			catch (SQLException e2){
+				System.err.println("EXCEPTION when connecting to database.");
+				e.printStackTrace();
+				System.exit(-1);
 			}
 		}
 		return currCon;
-
 	}
 	
 	/**
