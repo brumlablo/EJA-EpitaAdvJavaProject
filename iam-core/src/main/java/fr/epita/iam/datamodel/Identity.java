@@ -35,17 +35,6 @@ public class Identity {
 	}
 	
 	/**
-	 * @param uid unique id
-	 * @param displayName name
-	 * @param email email
-	 */
-	public Identity(String uid, String displayName, String email) {
-		this.uid = uid;
-		this.displayName = displayName;
-		this.email = email;
-	}
-	
-	/**
 	 * @return the uid
 	 */
 	public String getUid() {

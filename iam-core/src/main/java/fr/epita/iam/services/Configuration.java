@@ -19,10 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 public class Configuration {
 	
-	/*@Inject
-	@Named("dataSourceBean")
-	private DataSource ds;*/
-	
 	//singleton
 	private static Configuration inst;
 	private Properties props = new Properties();

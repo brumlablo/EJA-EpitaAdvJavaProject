@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import fr.epita.iam.datamodel.Identity;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -30,7 +32,7 @@ import fr.epita.iam.datamodel.Identity;
  */
 public class IdentityJDBCDAO {
 	
-	private Connection currCon;
+	//private Connection currCon;
 	private static final Logger LOGGER = LogManager.getLogger(IdentityJDBCDAO.class);
 	
 	@Inject
@@ -40,9 +42,9 @@ public class IdentityJDBCDAO {
 	/**
 	 * Constructor with connection to DBS
 	 */
-	public IdentityJDBCDAO() throws SQLException {
+	public IdentityJDBCDAO() /*throws SQLException*/ {
 		
-		try {
+		/*try {
 			
 			ds.getConnection();
 		}
@@ -50,7 +52,7 @@ public class IdentityJDBCDAO {
 			System.err.println("Exception when connecting to database.");
 			e.printStackTrace();
 			System.exit(-1); // world failure
-		}
+		}*/
 	}
 	
 	/**
@@ -58,7 +60,7 @@ public class IdentityJDBCDAO {
 	 * @return current connection
 	 * @throws SQLException 
 	 */
-	private Connection getConnection() throws SQLException {
+	/*private Connection getConnection() throws SQLException {
 		
 		try {
 			this.currCon.getSchema();
@@ -92,7 +94,7 @@ public class IdentityJDBCDAO {
 			}
 		}
 		return currCon;
-	}
+	}*/
 	
 	/**
 	 * Authentication of user
@@ -107,7 +109,7 @@ public class IdentityJDBCDAO {
 		
 		try
 		{
-			PreparedStatement pstmt_select = this.getConnection().prepareStatement("select * from IDENTITIES where IDENTITY_DISPLAYNAME = ? AND IDENTITY_PASSWORD = ?");
+			PreparedStatement pstmt_select = ds.getConnection().prepareStatement("select * from IDENTITIES where IDENTITY_DISPLAYNAME = ? AND IDENTITY_PASSWORD = ?");
 			pstmt_select.setString(1, login);
 			pstmt_select.setString(2, password);
 			
@@ -217,8 +219,9 @@ public class IdentityJDBCDAO {
 	public void eraseIdentity(String id) throws SQLException {
 		
 		LOGGER.debug("=> deleteIdentity with uid: tracing the input : {}", id);
+		Connection con;
 		try {
-			Connection con = ds.getConnection();
+			con = ds.getConnection();
 			//Boolean succ = false;
 	
 			String eraseStatement = "delete from IDENTITIES where IDENTITY_UID = ?";

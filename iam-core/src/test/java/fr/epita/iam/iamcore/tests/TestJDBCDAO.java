@@ -72,8 +72,8 @@ public class TestJDBCDAO {
 		
 		
 		IdentityJDBCDAO dao = new IdentityJDBCDAO();
-		String displayName = "Barbora Bbbb";
-		dao.writeIdentity(new Identity(null, displayName, "barbora.bbbb@gmail.com"));	
+		String displayName = "bbbb";
+		dao.writeIdentity(new Identity(null, displayName,"1234","barbora.bbbb@gmail.com",null));	
 		
 		String validationSql = "select * from IDENTITIES where IDENTITY_DISPLAYNAME=?";
 		Connection connection = getConnection();

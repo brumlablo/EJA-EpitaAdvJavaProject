@@ -4,6 +4,7 @@
 package fr.epita.iam.iamcore.tests;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ import fr.epita.iam.services.IdentityJDBCDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
+
 public class TestSpring {
 	
 	@Inject
@@ -43,11 +45,12 @@ public class TestSpring {
 		LOGGER.info("beginning the setup");
 		Connection connection = getConnection();
 		PreparedStatement pstmt = connection.prepareStatement("CREATE TABLE IDENTITIES " 
-	    + " (IDENTITIES_UID INT NOT NULL GENERATED ALWAYS AS IDENTITY CONSTRAINT IDENTITIES_PK PRIMARY KEY, " 
-	    + " IDENTITIES_DISPLAYNAME VARCHAR(255), "
-	    + " IDENTITIES_EMAIL VARCHAR(255), "
-	    + " IDENTITIES_BIRTHDATE DATE "
-	    + " )");
+			    + " (IDENTITY_UID INT NOT NULL GENERATED ALWAYS AS IDENTITY CONSTRAINT IDENTITY_PK PRIMARY KEY, " 
+			    + " IDENTITY_DISPLAYNAME VARCHAR(255), "
+			    + " IDENTITY_EMAIL VARCHAR(255), "
+			    + " IDENTITY_PASSWORD VARCHAR(255), "
+			    + " IDENTITY_BIRTHDATE DATE "
+			    + " )");
 		
 		pstmt.execute();
 		connection.commit();
@@ -62,7 +65,7 @@ public class TestSpring {
 	 * @throws SQLException
 	 */
 	private static Connection getConnection() throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:derby:memory:IAM;create=true", "TOM", "TOM");
+		Connection connection = DriverManager.getConnection("jdbc:derby:memory:IAM;create=true", "bbbb", "1234");
 		return connection;
 	}
 	
@@ -70,7 +73,7 @@ public class TestSpring {
 	
 	@Test
 	public void testSpringContext() throws SQLException{
-		dao.writeIdentity(new Identity(null, "Thomas", "thomas.broussard@gmail.com"));
+		dao.writeIdentity(new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null));
 	}
 
 }
