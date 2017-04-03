@@ -23,6 +23,7 @@ public class TestProperties {
 	
 	@Test
 	public void testReading() throws FileNotFoundException, IOException{
+		
 		Properties props = new Properties();
 		
 		String filePath = System.getProperty("fr.epita.iam.confFilePath");

@@ -6,7 +6,6 @@
     </Console>
   </Appenders>
   <Loggers>
-  
     <Logger level="DEBUG" name="fr.epita.iam.iamcore" additivity="false">
         <AppenderRef ref="Console"/>
     </Logger>

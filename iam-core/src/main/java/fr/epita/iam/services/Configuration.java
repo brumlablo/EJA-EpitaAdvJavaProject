@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Configuration {
 	
+	//singleton
+	private static Configuration inst;
 	private Properties props = new Properties();
 	private static final Logger LOGGER = LogManager.getLogger(Configuration.class);
 	
@@ -22,7 +24,15 @@ public class Configuration {
 		props.load(new FileInputStream(new File(filePath))); // file not found? >> exception
 		//LOGGER.info("config file props: {}",props);
 	}
-
+	
+	public static Configuration getInstance() throws FileNotFoundException, IOException{
+		
+		if (inst == null){
+			inst = new Configuration();
+		}
+		return inst;
+	}
+	
 	public String getUser() {
 		return props.getProperty("jdbc.connection.user");
 	}

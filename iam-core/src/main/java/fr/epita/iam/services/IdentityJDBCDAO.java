@@ -2,15 +2,21 @@ package fr.epita.iam.services;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +33,10 @@ public class IdentityJDBCDAO {
 	private Connection currCon;
 	private static final Logger LOGGER = LogManager.getLogger(IdentityJDBCDAO.class);
 	
+	@Inject
+	@Named("dataSourceBean")
+	private DataSource ds;
+	
 	/**
 	 * Constructor with connection to DBS
 	 */
@@ -34,7 +44,7 @@ public class IdentityJDBCDAO {
 		
 		try {
 			
-			getConnection();
+			ds.getConnection();
 		}
 		catch (Exception e) {
 			System.err.println("Exception when connecting to database.");
@@ -55,9 +65,10 @@ public class IdentityJDBCDAO {
 			LOGGER.info("connected to this schema:  {}", currCon.getSchema());
 		}
 		catch(Exception e){
-			Configuration config;
+			
 			try {
-				config = new Configuration();
+				
+				Configuration config = Configuration.getInstance();
 				
 				String user = config.getUser();
 				String password = config.getPwd();
@@ -127,7 +138,7 @@ public class IdentityJDBCDAO {
 		LOGGER.debug("=> writeIdentity : tracing the input : {}", identity);
 		Connection con;
 		try {
-			con = getConnection();
+			con = ds.getConnection();
 			//Boolean succ = false; // success of operation
 			
 			String insertStatement = "insert into IDENTITIES (IDENTITY_DISPLAYNAME, IDENTITY_PASSWORD, IDENTITY_EMAIL, IDENTITY_BIRTHDATE) "
@@ -170,7 +181,7 @@ public class IdentityJDBCDAO {
 		
 		LOGGER.debug("=> modifyIdentity : tracing the input : {}", identity);
 		try {
-			Connection con = getConnection();
+			Connection con = ds.getConnection();
 			//Boolean succ = false;
 			
 			String updateStatement = "UPDATE IDENTITIES SET IDENTITY_DISPLAYNAME = ?, IDENTITY_PASSWORD = ?, IDENTITY_EMAIL = ?, IDENTITY_BIRTHDATE = ? WHERE IDENTITY_UID = ?";
@@ -207,7 +218,7 @@ public class IdentityJDBCDAO {
 		
 		LOGGER.debug("=> deleteIdentity with uid: tracing the input : {}", id);
 		try {
-			Connection con = getConnection();
+			Connection con = ds.getConnection();
 			//Boolean succ = false;
 	
 			String eraseStatement = "delete from IDENTITIES where IDENTITY_UID = ?";
@@ -241,7 +252,7 @@ public class IdentityJDBCDAO {
 		
 		try
 		{
-			PreparedStatement pstmt_select = this.getConnection().prepareStatement("select * from IDENTITIES");
+			PreparedStatement pstmt_select = ds.getConnection().prepareStatement("select * from IDENTITIES");
 			ResultSet rs = pstmt_select.executeQuery();
 			while (rs.next()){
 				String displayName = rs.getString("IDENTITY_DISPLAYNAME");
