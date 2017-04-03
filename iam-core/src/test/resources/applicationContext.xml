@@ -6,6 +6,10 @@
 	<bean id="dao" name="dao" class="fr.epita.iam.services.IdentityJDBCDAO" />
 
     <!-- todo : use SpringPropertiesUtil Something to load the placeholders values below: -->
+    <!--  ???? -->
+    <!-- 1) directly put strings here and use them in code... security risk, definitely not the idea!-->
+    <!-- 2) ${var} is system variable, so set system variables and use them in Configuration and then use this in IdentityJDBCDAO, but how to connect this?-->
+      
 	<bean id="dataSourceBean"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${jdbc.driver.name}" />
