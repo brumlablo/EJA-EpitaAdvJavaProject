@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.test.context.ContextConfiguration;
 
 import fr.epita.iam.datamodel.Identity;
 
@@ -30,6 +31,7 @@ import fr.epita.iam.datamodel.Identity;
  * @author bb
  *
  */
+@ContextConfiguration(locations={"/applicationContext.xml"})
 public class IdentityJDBCDAO {
 	
 	//private Connection currCon;
