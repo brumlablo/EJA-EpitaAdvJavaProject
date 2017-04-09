@@ -4,6 +4,7 @@
 package fr.epita.iam.iamcore.tests;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Date;
 
 import java.sql.PreparedStatement;
@@ -48,8 +49,19 @@ public class TestJDBCDAO {
 	
 	public static void globalSetup(DataSource source) throws SQLException{
 		LOGGER.info("beginning the setup");
-		Connection connection = source.getConnection();
-		PreparedStatement pstmt = connection.prepareStatement("CREATE TABLE IDENTITIES " 
+		Connection con = source.getConnection();
+		DatabaseMetaData dbmd = con.getMetaData();
+		ResultSet rs = dbmd.getTables(null, "BBBB", "IDENTITIES", null);
+		PreparedStatement pstmt;
+		if(rs.next())
+		{
+			/*TABLE EXISTS >> ERASE */
+			pstmt = con.prepareStatement("DROP TABLE IDENTITIES");
+			pstmt.execute();
+			con.commit();
+			
+		}
+		pstmt = con.prepareStatement("CREATE TABLE IDENTITIES " 
 			    + " (IDENTITY_UID INT NOT NULL GENERATED ALWAYS AS IDENTITY CONSTRAINT IDENTITY_PK PRIMARY KEY, " 
 			    + " IDENTITY_DISPLAYNAME VARCHAR(255), "
 			    + " IDENTITY_EMAIL VARCHAR(255), "
@@ -58,9 +70,9 @@ public class TestJDBCDAO {
 			    + " )");
 		
 		pstmt.execute();
-		connection.commit();
+		con.commit();
 		pstmt.close();
-		connection.close();
+		con.close();
 		LOGGER.info("setup finished : ready to proceed with the testcase");
 		
 	}
@@ -76,14 +88,12 @@ public class TestJDBCDAO {
 	@Test
 	public void basicTest() throws SQLException{
 		
-		
-		IdentityJDBCDAO dao = new IdentityJDBCDAO();
 		String displayName = "bbbb";
 		dao.writeIdentity(new Identity(null, displayName,"1234","barbora.bbbb@gmail.com",null));	
 		
 		String validationSql = "select * from IDENTITIES where IDENTITY_DISPLAYNAME=?";
-		Connection connection = ds.getConnection();
-		PreparedStatement pstmt = connection.prepareStatement(validationSql);
+		Connection con = ds.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(validationSql);
 		pstmt.setString(1, displayName);
 		
 		ResultSet rs = pstmt.executeQuery();
@@ -98,7 +108,7 @@ public class TestJDBCDAO {
 		
 		pstmt.close();
 		rs.close();
-		connection.close();
+		con.close();
 		
 	}
 	

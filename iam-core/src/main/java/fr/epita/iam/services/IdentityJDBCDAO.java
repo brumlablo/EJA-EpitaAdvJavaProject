@@ -142,6 +142,7 @@ public class IdentityJDBCDAO {
 		LOGGER.debug("=> writeIdentity : tracing the input : {}", identity);
 		Connection con;
 		try {
+			
 			con = ds.getConnection();
 			//Boolean succ = false; // success of operation
 			

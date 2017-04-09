@@ -4,9 +4,11 @@
 package fr.epita.iam.iamcore.tests;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -23,7 +25,7 @@ import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.IdentityJDBCDAO;
 
 /**
- * @author tbrou
+ * @author bb
  *
  */
 
@@ -43,8 +45,19 @@ public class TestSpring {
 	@BeforeClass
 	public static void globalSetup() throws SQLException{
 		LOGGER.info("beginning the setup");
-		Connection connection = getConnection();
-		PreparedStatement pstmt = connection.prepareStatement("CREATE TABLE IDENTITIES " 
+		Connection con= getConnection();
+		DatabaseMetaData dbmd = con.getMetaData();
+		ResultSet rs = dbmd.getTables(null, "BBBB", "IDENTITIES", null);
+		PreparedStatement pstmt;
+		if(rs.next())
+		{
+			/*TABLE EXISTS >> ERASE */
+			pstmt = con.prepareStatement("DROP TABLE IDENTITIES");
+			pstmt.execute();
+			con.commit();
+			
+		}
+		pstmt = con.prepareStatement("CREATE TABLE IDENTITIES " 
 			    + " (IDENTITY_UID INT NOT NULL GENERATED ALWAYS AS IDENTITY CONSTRAINT IDENTITY_PK PRIMARY KEY, " 
 			    + " IDENTITY_DISPLAYNAME VARCHAR(255), "
 			    + " IDENTITY_EMAIL VARCHAR(255), "
@@ -53,9 +66,9 @@ public class TestSpring {
 			    + " )");
 		
 		pstmt.execute();
-		connection.commit();
+		con.commit();
 		pstmt.close();
-		connection.close();
+		con.close();
 		LOGGER.info("setup finished : ready to proceed with the testcase");
 		
 	}
