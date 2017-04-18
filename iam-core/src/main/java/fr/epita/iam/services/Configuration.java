@@ -6,14 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.sql.DataSource;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.sql.DataSource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +22,7 @@ public class Configuration {
 		String filePath = System.getProperty("fr.epita.iam.confFilePath");
 		
 		props.load(new FileInputStream(new File(filePath))); // file not found? >> exception
-		//LOGGER.info("config file props: {}",props);
+		LOGGER.debug("config file props: {}",props);
 	}
 	
 	public static Configuration getInstance() throws FileNotFoundException, IOException{

@@ -1,11 +1,8 @@
 package fr.epita.iam.services;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -14,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,8 +19,6 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
-
-import fr.epita.iam.datamodel.Identity;
 
 /**
  * Class connecting to and working with DBS
@@ -196,7 +190,7 @@ public class IdentityJDBCDAO {
 			pstmt_update.setString(2, identity.getPassword());
 			pstmt_update.setString(3, identity.getEmail());
 			pstmt_update.setDate(4, identity.getDOB());
-			pstmt_update.setString(5, identity.getUid());
+			pstmt_update.setLong(5, identity.getUid());
 			
 			pstmt_update.executeUpdate();
 			// was modification successful?
@@ -251,7 +245,7 @@ public class IdentityJDBCDAO {
 	 * @return list of identities (from DBS) and their info
 	 * @throws SQLException
 	 */
-	public List<Identity>  readAllIdentities() throws SQLException {
+	public List<Identity>  readAllIdentities() {
 		
 		LOGGER.debug("=> readAll");
 		List<Identity> identities = new ArrayList<Identity>();
@@ -262,7 +256,7 @@ public class IdentityJDBCDAO {
 			ResultSet rs = pstmt_select.executeQuery();
 			while (rs.next()){
 				String displayName = rs.getString("IDENTITY_DISPLAYNAME");
-				String uid = String.valueOf(rs.getString("IDENTITY_UID"));
+				Long uid = rs.getLong("IDENTITY_UID");
 				String email = rs.getString("IDENTITY_EMAIL");
 				String password = rs.getString("IDENTITY_PASSWORD");
 				java.sql.Date dob = rs.getDate("IDENTITY_BIRTHDATE");
@@ -271,8 +265,13 @@ public class IdentityJDBCDAO {
 			}
 			return LOGGER.traceExit("<= readAll : {}", identities);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		catch(SQLException e1) {
+			e1.printStackTrace();
+			LOGGER.debug("=> readAll SQL EXCEPTION");
+			System.exit(-1);
+		}
+		catch(Exception e2) {
+			e2.printStackTrace();
 			LOGGER.debug("=> readAll EXCEPTION");
 			System.exit(-1);
 		}

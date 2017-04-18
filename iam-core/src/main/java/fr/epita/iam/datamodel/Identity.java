@@ -5,17 +5,35 @@ package fr.epita.iam.datamodel;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Identity object
  * @author bb
  *
  */
+@Entity
+@Table(name="IDENTITIES")
 public class Identity {
 	
-	private String uid;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="IDENTITY_UID")
+	private Long uid;
+	
+	
+	@Column(name="IDENTITY_DISPLAYNAME")
 	private String displayName;
+	@Column(name="IDENTITY_PASSWORD")
 	private String password;
+	@Column(name="IDENTITY_EMAIL")
 	private String email;
+	@Column(name="IDENTITY_BIRTHDATE")
 	private Date dob;
 	
 	
@@ -26,7 +44,8 @@ public class Identity {
 	 * @param email email
 	 * @param dob date of birth
 	 */
-	public Identity(String uid, String displayName, String password, String email,Date dob) {
+	public Identity(Long uid, String displayName, String password, String email,Date dob) {
+		
 		this.uid = uid;
 		this.displayName = displayName;
 		this.password = password;
@@ -35,15 +54,22 @@ public class Identity {
 	}
 	
 	/**
+	 * @param default constructor
+	 */
+	public Identity() {
+		
+	}
+	
+	/**
 	 * @return the uid
 	 */
-	public String getUid() {
+	public Long getUid() {
 		return uid;
 	}
 	/**
 	 * @param uid the uid to set
 	 */
-	public void setUid(String uid) {
+	public void setUid(Long uid) {
 		this.uid = uid;
 	}
 	/**
