@@ -8,8 +8,10 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.junit.runner.RunWith;
@@ -26,69 +28,72 @@ import fr.epita.iam.datamodel.Identity;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
-public class IdentityHibernateJDBCDAO {
+public class HibernateDAO {
 	
 	@Inject
 	SessionFactory sessionFactory;
 	
 	//Session session;
 	
-	private static final Logger LOGGER = LogManager.getLogger(IdentityHibernateJDBCDAO.class);
+	private static final Logger LOGGER = LogManager.getLogger(HibernateDAO.class);
 	
-	public IdentityHibernateJDBCDAO()
-	{
+	public HibernateDAO() {
+		
 	}
 	
 	
 	public void writeIdentity(Identity identity){
 		
 		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
 		session.saveOrUpdate(identity);
+		t.commit();
+		session.close();
 		LOGGER.info("created identity:  {}", identity);
 	}
 	
 	
-	public void modifyIdentity(long id) {
+	public void updateIdentity(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
-		Identity identity;
-
-	    identity = (Identity)session.load(Identity.class,id);
-		identity.setEmail("kopecekslavy@huhu.com");
+		Transaction t = session.beginTransaction();
 		session.update(identity); // hibernate finds and update identity on its own
-		session.flush();
+		t.commit();
+		session.close();
 		LOGGER.info("modified identity:  {}", identity);
 	}
 	
-	public void eraseIdentity(long id) {
+	public void eraseIdentity(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
-		Identity identity;
-
-	    identity = (Identity)session.load(Identity.class,id);
-	    session.delete(identity);
-
-	    session.flush();
+		Transaction t = session.beginTransaction();
+		session.delete(identity);
+		t.commit();
+		session.close();
 	    LOGGER.info("deleted identity:  {}", identity);
 	}
 	
-	public List<Identity> searchIdentities(String displayName) {
+	public List<Identity> searchIdentity(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
-
-		Criteria criteria = session.createCriteria(Identity.class);
-		ids = (List<Identity>) criteria.add(Restrictions.ilike("IDENTITY_DISPLAYNAME", displayName, MatchMode.ANYWHERE)).uniqueResult();
+		Transaction t = session.beginTransaction();
+		Query query = session.createQuery("FROM Identity AS identity WHERE identity.displayName like :displayName");
+		//transaction - forces changes in cache to be updated to dbs
+		query.setParameter("displayName", "%" + identity.getDisplayName());
+		ids  = query.list();
+		t.commit();
+		session.close();
 		return ids;
 		
 	}
 	
-	public Identity searchIdentityById(long id) {
+	/*public Identity searchIdentityById(long id) {
 		
 		Session session = sessionFactory.openSession();
 		return (Identity)session.load(Identity.class,id);
 	
-	}
+	}*/
 	
 	public List<Identity>readAllIdentities() {
 		
