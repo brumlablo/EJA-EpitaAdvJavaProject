@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:web="http://xmlns.jcp.org/xml/ns/javaee">
+  <display-name>iam-web</display-name>
+  <servlet>
+    <description></description>
+    <display-name>AuthenticationServlet</display-name>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <servlet-class>fr.epita.iam.servlets.AuthenticationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthenticationServlet</servlet-name>
+    <url-pattern>/AuthenticationServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

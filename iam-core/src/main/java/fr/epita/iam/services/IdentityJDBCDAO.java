@@ -176,7 +176,7 @@ public class IdentityJDBCDAO {
 	 * @return success of operation
 	 * @throws SQLException
 	 */
-	public void modifyIdentity(Identity identity) throws SQLException {
+	public void updateIdentity(Identity identity) throws SQLException {
 		
 		LOGGER.debug("=> modifyIdentity : tracing the input : {}", identity);
 		try {

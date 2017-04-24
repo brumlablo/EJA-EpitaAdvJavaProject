@@ -28,7 +28,8 @@ import fr.epita.iam.datamodel.Identity;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
-public class HibernateDAO {
+
+public class HibernateDAO implements DAO<Identity> {
 	
 	@Inject
 	SessionFactory sessionFactory;
@@ -42,7 +43,7 @@ public class HibernateDAO {
 	}
 	
 	
-	public void writeIdentity(Identity identity){
+	public void write(Identity identity){
 		
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -53,7 +54,7 @@ public class HibernateDAO {
 	}
 	
 	
-	public void updateIdentity(Identity identity) {
+	public void update(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -63,7 +64,7 @@ public class HibernateDAO {
 		LOGGER.info("modified identity:  {}", identity);
 	}
 	
-	public void eraseIdentity(Identity identity) {
+	public void erase(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -73,7 +74,7 @@ public class HibernateDAO {
 	    LOGGER.info("deleted identity:  {}", identity);
 	}
 	
-	public List<Identity> searchIdentity(Identity identity) {
+	public List<Identity> search(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
@@ -95,7 +96,7 @@ public class HibernateDAO {
 	
 	}*/
 	
-	public List<Identity>readAllIdentities() {
+	public List<Identity>readAll() {
 		
 		Session session = sessionFactory.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
