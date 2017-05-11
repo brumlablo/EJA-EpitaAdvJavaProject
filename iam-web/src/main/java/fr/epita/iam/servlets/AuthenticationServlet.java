@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class AuthenticationServlet extends HttpServlet {
 	
 	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
-
+	private static final long serialVersionUID = 1L;
     /**
      * Default constructor. 
      */
@@ -28,18 +28,19 @@ public class AuthenticationServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+	}*/
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String login = req.getParameter("login");
+		String password = req.getParameter("password");
+		LOGGER.info("tried to authenticate with this login {}", login);
 	}
 
 }

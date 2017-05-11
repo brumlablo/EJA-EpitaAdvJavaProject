@@ -5,8 +5,14 @@
 <title>Welcome page</title>
 </head>
 <body>
-<h2>Login</h2>
-<div><label>login</label></div>
-<div><label>password</label></div>
+    <div>
+        <h2>login</h2>
+        <form action="authenticate" method="post">
+            <div><label>login</label><input name="login" type="text" /> </div>
+            <div><label>password</label><input name="pwd" type="password" /></div>
+            <input type="submit" />
+        </form>
+    
+    </div>
 </body>
 </html>
