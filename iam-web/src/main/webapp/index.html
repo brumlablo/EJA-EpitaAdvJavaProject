@@ -3,16 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Welcome page</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div>
-        <h2>login</h2>
-        <form action="authenticate" method="post">
-            <div><label>login</label><input name="login" type="text" /> </div>
-            <div><label>password</label><input name="pwd" type="password" /></div>
-            <input type="submit" />
-        </form>
-    
-    </div>
+	<div class="container">
+	<h2 class="title">Welcome to the EPITA Java Application!</h2>
+		
+		<form action="authenticate" method="post" role="form">
+			<div class="form-group">
+				<label>login</label>
+				<input class="form-control" name="login" type="text" placeholder="Login">
+			</div>
+			<div class="form-group">
+				<label>password</label>
+				<input class="form-control" name="pwd" type="password" placeholder="Password" >
+			</div>
+			<button class="btn" type="submit">Login</button>
+		</form>
+	</div>
 </body>
 </html>

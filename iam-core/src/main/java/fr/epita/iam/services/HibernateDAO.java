@@ -89,6 +89,7 @@ public class HibernateDAO implements DAO<Identity> {
 		
 	}
 	
+	
 	/*public Identity searchIdentityById(long id) {
 		
 		Session session = sessionFactory.openSession();
@@ -118,5 +119,19 @@ public class HibernateDAO implements DAO<Identity> {
 		
 	}
 	
-
+	/*todo: fix search by address*/
+	public List<Identity> searchbyAddr(String addr) {
+		
+		Session session = sessionFactory.openSession();
+		List<Identity> ids = new ArrayList<Identity>();
+		Transaction t = session.beginTransaction();
+		Query query = session.createQuery("FROM Address AS address WHERE address.addr like :addr");
+		//transaction - forces changes in cache to be updated to dbs
+		query.setParameter("addr", "%" + addr);
+		ids  = query.list();
+		t.commit();
+		session.close();
+		return ids;
+		
+	}
 }
