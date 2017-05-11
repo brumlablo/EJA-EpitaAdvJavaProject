@@ -1,5 +1,6 @@
 package fr.epita.iam.services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,10 @@ import fr.epita.iam.datamodel.Identity;
 
 public class HibernateDAO implements DAO<Identity> {
 	
-	@Inject
-	SessionFactory sessionFactory;
 	
 	//Session session;
+	@Inject
+	SessionFactory sessionFactory;
 	
 	private static final Logger LOGGER = LogManager.getLogger(HibernateDAO.class);
 	
@@ -43,7 +44,7 @@ public class HibernateDAO implements DAO<Identity> {
 	}
 	
 	
-	public void write(Identity identity){
+	public void write(Identity identity) {
 		
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();

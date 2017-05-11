@@ -38,6 +38,9 @@ public class TestHibernateDAO {
 	DAO<Identity> dao;
 	
 	@Inject
+	DAO<Address> addrDao;
+	
+	@Inject
 	SessionFactory sf;
 	
 	@Test
@@ -66,6 +69,7 @@ public class TestHibernateDAO {
 	@Test
 	public void testSearchByAddr(){
 		
+		
 		Identity identity1 = new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null);
 		Identity identity2 = new Identity(null, "karel","haha","karel@tradada.com",null);
 		Identity identity3 = new Identity(null, "blabla","5678","16468464@troll.net",null);
@@ -78,11 +82,15 @@ public class TestHibernateDAO {
 		Address addr2 = new Address(null,addrs[0],identity1);
 		Address addr3 = new Address(null,addrs[1],identity2);
 		
-		List<Identity> results = dao.searchbyAddr(addrs[2]);
+		addrDao.write(addr1);
+		addrDao.write(addr2);
+		addrDao.write(addr3);
+		
+		List<Address> results = addrDao.search(addr2);
 		LOGGER.info("before search: {} ",results);
 		Assert.assertTrue(results.isEmpty());
 		
-		results = dao.searchbyAddr(addrs[1]);
+		results = addrDao.search(addr1);
 		
 		Assert.assertTrue(!results.isEmpty() && results.size() == 1);
 		

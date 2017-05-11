@@ -13,6 +13,5 @@ public interface DAO<T> {
 	public void erase(T identity);
 	public List<T> search(T identity);
 	public List<T>readAll();
-	public List<Identity> searchbyAddr(String string);
 
 }
