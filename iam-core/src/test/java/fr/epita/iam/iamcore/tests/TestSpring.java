@@ -85,7 +85,7 @@ public class TestSpring {
 	
 	@Test
 	public void testSpringContext() throws SQLException{
-		dao.writeIdentity(new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null));
+		dao.write(new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null));
 	}
 
 }

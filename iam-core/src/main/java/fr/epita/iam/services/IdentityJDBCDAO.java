@@ -26,7 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
  *
  */
 @ContextConfiguration(locations={"/applicationContext.xml"})
-public class IdentityJDBCDAO {
+public class IdentityJDBCDAO implements DAO<Identity> {
 	
 	//private Connection currCon;
 	private static final Logger LOGGER = LogManager.getLogger(IdentityJDBCDAO.class);
@@ -116,14 +116,18 @@ public class IdentityJDBCDAO {
 				success = true;
 			}
 			return success;*/
-			LOGGER.debug("=> authentication successfull");
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+		catch(SQLException e1){
+			e1.printStackTrace();
+			LOGGER.debug("=> authentication SQL EXCEPTION");
+			System.exit(-1);
+		}
+		catch(Exception e2) {
+			e2.printStackTrace();
 			LOGGER.debug("=> authentication EXCEPTION");
 			System.exit(-1);
 		}
+		LOGGER.debug("=> authentication successfull");
 	}
 	
 	/**
@@ -131,9 +135,9 @@ public class IdentityJDBCDAO {
 	 * @param identity identity (object)
 	 * @return success of operation
 	 */
-	public void writeIdentity(Identity identity){
+	public void write(Identity identity){
 		
-		LOGGER.debug("=> writeIdentity : tracing the input : {}", identity);
+		LOGGER.debug("=> write : tracing the input : {}", identity);
 		Connection con;
 		try {
 			
@@ -162,12 +166,18 @@ public class IdentityJDBCDAO {
 				LOGGER.debug("=> writeIdentity: leaving the method with ERROR" );
 			
 			return succ;*/
-			LOGGER.debug("=> writeIdentity: leaving the method with no error" );
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOGGER.debug("=> writeIdentity EXCEPTION");
+		}
+		catch(SQLException e1){
+			e1.printStackTrace();
+			LOGGER.debug("=> write SQL EXCEPTION");
 			System.exit(-1);
 		}
+		catch(Exception e2) {
+			e2.printStackTrace();
+			LOGGER.debug("=> write EXCEPTION");
+			System.exit(-1);
+		}
+		LOGGER.debug("=> write: leaving the method with no error" );
 	}
 	
 	/**
@@ -176,9 +186,9 @@ public class IdentityJDBCDAO {
 	 * @return success of operation
 	 * @throws SQLException
 	 */
-	public void updateIdentity(Identity identity) throws SQLException {
+	public void update(Identity identity) {
 		
-		LOGGER.debug("=> modifyIdentity : tracing the input : {}", identity);
+		LOGGER.debug("=> modify : tracing the input : {}", identity);
 		try {
 			Connection con = ds.getConnection();
 			//Boolean succ = false;
@@ -198,11 +208,16 @@ public class IdentityJDBCDAO {
 			if(rowsTouched >0)
 			    succ = true;
 			return succ;*/
-			LOGGER.debug("=> modifyIdentity: leaving the method with no error" );
+			LOGGER.debug("=> modify: leaving the method with no error" );
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			LOGGER.debug("=> modifyIdentity EXCEPTION");
+		catch(SQLException e1){
+			e1.printStackTrace();
+			LOGGER.debug("=> modify SQL EXCEPTION");
+			System.exit(-1);
+		}
+		catch(Exception e2) {
+			e2.printStackTrace();
+			LOGGER.debug("=> modify EXCEPTION");
 			System.exit(-1);
 		}
 	}
@@ -213,9 +228,9 @@ public class IdentityJDBCDAO {
 	 * @return success of operation
 	 * @throws SQLException
 	 */
-	public void eraseIdentity(String id) throws SQLException {
+	public void erase(Identity identity) {
 		
-		LOGGER.debug("=> deleteIdentity with uid: tracing the input : {}", id);
+		LOGGER.debug("=> delete with uid: tracing the input : {}", identity.getUid());
 		Connection con;
 		try {
 			con = ds.getConnection();
@@ -223,7 +238,7 @@ public class IdentityJDBCDAO {
 	
 			String eraseStatement = "delete from IDENTITIES where IDENTITY_UID = ?";
 			PreparedStatement psmt_erase = con.prepareStatement(eraseStatement);
-			psmt_erase.setString(1, id);
+			psmt_erase.setString(1, identity.getUid().toString());
 			
 			psmt_erase.executeUpdate();
 			// was deletion successful?
@@ -231,13 +246,18 @@ public class IdentityJDBCDAO {
 			if(rowsTouched >0)
 			    succ = true;
 			return succ;*/
-			LOGGER.debug("=> deleteIdentity: leaving the method with no error" );
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			LOGGER.debug("=> deleteIdentity EXCEPTION");
+		catch(SQLException e1){
+			e1.printStackTrace();
+			LOGGER.debug("=> delete SQL EXCEPTION");
 			System.exit(-1);
 		}
+		catch(Exception e2) {
+			e2.printStackTrace();
+			LOGGER.debug("=> delete EXCEPTION");
+			System.exit(-1);
+		}
+		LOGGER.debug("=> delete: leaving the method with no error" );
 	}
 	
 	/**
@@ -245,7 +265,7 @@ public class IdentityJDBCDAO {
 	 * @return list of identities (from DBS) and their info
 	 * @throws SQLException
 	 */
-	public List<Identity>  readAllIdentities() {
+	public List<Identity> readAll() {
 		
 		LOGGER.debug("=> readAll");
 		List<Identity> identities = new ArrayList<Identity>();
@@ -263,7 +283,6 @@ public class IdentityJDBCDAO {
 				Identity identity = new Identity(uid, displayName, password, email, dob);
 				identities.add(identity);
 			}
-			return LOGGER.traceExit("<= readAll : {}", identities);
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
@@ -275,6 +294,43 @@ public class IdentityJDBCDAO {
 			LOGGER.debug("=> readAll EXCEPTION");
 			System.exit(-1);
 		}
+		LOGGER.traceExit("<= readAll : {}", identities);
+		return identities;
+	}
+
+	@Override
+	public List<Identity> search(Identity identity) {
+
+		LOGGER.debug("=> search");
+		List<Identity> identities = new ArrayList<Identity>();
+		/*todo finish JDBC search*/
+		try
+		{
+			PreparedStatement pstmt_select = ds.getConnection().prepareStatement("select * from IDENTITIES where IDENTITY_DISPLAYNAME = ?");
+			
+			pstmt_select.setString(1, identity.getDisplayName());
+			ResultSet rs = pstmt_select.executeQuery();
+			while (rs.next()){
+				String displayName = rs.getString("IDENTITY_DISPLAYNAME");
+				Long uid = rs.getLong("IDENTITY_UID");
+				String email = rs.getString("IDENTITY_EMAIL");
+				String password = rs.getString("IDENTITY_PASSWORD");
+				java.sql.Date dob = rs.getDate("IDENTITY_BIRTHDATE");
+				Identity idFound = new Identity(uid, displayName, password, email, dob);
+				identities.add(idFound);
+			}
+		}
+		catch(SQLException e1){
+			e1.printStackTrace();
+			LOGGER.debug("=> search SQL EXCEPTION");
+			System.exit(-1);
+		}
+		catch(Exception e2) {
+			e2.printStackTrace();
+			LOGGER.debug("=> search EXCEPTION");
+			System.exit(-1);
+		}
+		LOGGER.info("Found identites: {} ",identities);
 		return identities;
 	}
 	

@@ -65,7 +65,7 @@ public class HibernateAddressDAO implements DAO<Address> {
 		Session session = sessionFactory.openSession();	
 		Query query = session.createQuery("FROM Address AS address WHERE address.addr like :addr");
 		//transaction - forces changes in cache to be updated to dbs
-		query.setParameter("addr", "%" + addr);
+		query.setParameter("addr", "%" + addr.getAddr());
 		List<Address> addressList = query.list();
 		session.close();
 		LOGGER.info("searched address : {} ", addr);

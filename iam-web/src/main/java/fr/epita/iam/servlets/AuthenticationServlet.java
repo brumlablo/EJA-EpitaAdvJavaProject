@@ -50,6 +50,7 @@ public class AuthenticationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		LOGGER.info("dao instance loaded: {}",dao);
+		
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		String login = req.getParameter("login");
 		String password = req.getParameter("password");
