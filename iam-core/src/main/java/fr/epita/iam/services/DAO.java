@@ -12,6 +12,6 @@ public interface DAO<T> {
 	public void update(T identity);
 	public void erase(T identity);
 	public List<T> search(T identity);
-	public List<T>readAll();
+	public List<T> readAll();
 
 }

@@ -38,12 +38,13 @@ public class TestHibernate {
 	@Test
 	public void testHibernate(){
 		
+		
 		//test listing identities and identity creation 
 		List<Identity> result = hibDao.readAll();
 		int ilSize = result.size();
 		LOGGER.info("before: {} ",result);
 		
-		Identity identity1 = new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null);
+		Identity identity1 = new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null,"admin");
 		
 		Identity identity2 = new Identity(null, "karel","haha","karel@tradada.com",null);
 		Identity identity3 = new Identity(null, "blabla","5678","16468464@troll.net",null);
@@ -64,7 +65,7 @@ public class TestHibernate {
 		Assert.assertEquals(result.size(), ilSize +4 );
 		
 		List<Identity> results = hibDao.search(identity5);
-		LOGGER.info("fuck this shit: {}", results);
+		LOGGER.info("after search: {}", results);
 		Assert.assertTrue(results.isEmpty());
 		
 		//modification and search
@@ -76,7 +77,6 @@ public class TestHibernate {
 		Assert.assertTrue(results != null && ! results.isEmpty());
 		LOGGER.info("results: {}", results.get(0).getEmail());
 		Assert.assertTrue(results.get(0) != null && (results.get(0).getEmail().equals("kopecekslavy@huhu.com")));
-		LOGGER.info("noooooo");
 		
 		result = hibDao.readAll();
 		LOGGER.info("after modification: {} ",result);

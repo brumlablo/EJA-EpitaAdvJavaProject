@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.services.DAO;
 import fr.epita.iam.services.IdentityJDBCDAO;
 
 /**
@@ -36,12 +37,12 @@ import fr.epita.iam.services.IdentityJDBCDAO;
 public class TestSpring {
 	
 	@Inject
-	IdentityJDBCDAO dao;	
+	DAO<Identity> dao;	
 	
 	private static final Logger LOGGER = LogManager.getLogger(TestSpring.class);
 	
 
-	@BeforeClass
+	//@BeforeClass
 	public static void globalSetup() throws SQLException{
 		LOGGER.info("beginning the setup");
 		Connection con= getConnection();
@@ -61,7 +62,8 @@ public class TestSpring {
 			    + " IDENTITY_DISPLAYNAME VARCHAR(255), "
 			    + " IDENTITY_EMAIL VARCHAR(255), "
 			    + " IDENTITY_PASSWORD VARCHAR(255), "
-			    + " IDENTITY_BIRTHDATE DATE "
+			    + " IDENTITY_BIRTHDATE DATE, "
+			    + " IDENTITY_ROLE BOOLEAN "
 			    + " )");
 		
 		pstmt.execute();
@@ -77,7 +79,7 @@ public class TestSpring {
 	 * @throws SQLException
 	 */
 	private static Connection getConnection() throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:derby:memory:IAM;create=true", "bbbb", "1234");
+		Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/IAM_DBS;create=true", "bbbb", "1234");
 		return connection;
 	}
 	
@@ -85,7 +87,7 @@ public class TestSpring {
 	
 	@Test
 	public void testSpringContext() throws SQLException{
-		dao.write(new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null));
+		dao.write(new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com",null,"admin"));
 	}
 
 }

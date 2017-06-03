@@ -12,10 +12,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import fr.epita.iam.datamodel.Address;
 import fr.epita.iam.datamodel.Identity;
 
+@Repository
 public class HibernateAddressDAO implements DAO<Address> {
 	
 	
@@ -73,9 +75,9 @@ public class HibernateAddressDAO implements DAO<Address> {
 		
 	}
 
-	@Override
 	public List<Address> readAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

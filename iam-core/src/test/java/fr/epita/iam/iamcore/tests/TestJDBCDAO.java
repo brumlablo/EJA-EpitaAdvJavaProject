@@ -28,6 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.services.DAO;
 import fr.epita.iam.services.IdentityJDBCDAO;
 
 /**
@@ -39,7 +40,7 @@ import fr.epita.iam.services.IdentityJDBCDAO;
 public class TestJDBCDAO {
 	
 	@Inject
-	IdentityJDBCDAO dao;
+	DAO<Identity> dao;	
 	
 	@Inject
 	DataSource ds;
@@ -56,8 +57,8 @@ public class TestJDBCDAO {
 	@Test
 	public void basicTest() throws SQLException{
 		
-		String displayName = "bbbb";
-		dao.write(new Identity(null, displayName,"1234","barbora.bbbb@gmail.com",null));	
+		String displayName = "whee";
+		dao.write(new Identity(null, displayName,"1234","wheee.whee@gmail.com",null));	
 		
 		String validationSql = "select * from IDENTITIES where IDENTITY_DISPLAYNAME=?";
 		Connection con = ds.getConnection();

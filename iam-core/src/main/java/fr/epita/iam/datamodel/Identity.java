@@ -35,7 +35,8 @@ public class Identity {
 	private String email;
 	@Column(name="IDENTITY_BIRTHDATE")
 	private Date dob;
-	
+	@Column(name="IDENTITY_ROLE")
+	private String role;
 	
 	/**
 	 * @param uid unique id
@@ -51,6 +52,25 @@ public class Identity {
 		this.password = password;
 		this.email = email;
 		this.dob = dob;
+		this.role = "user"; // default = user
+	}
+	
+	/**
+	 * @param uid unique id
+	 * @param displayName name
+	 * @param password password
+	 * @param email email
+	 * @param dob date of birth
+	 * @param isAdmin is identity the admin?
+	 */
+	public Identity(Long uid, String displayName, String password, String email,Date dob, String role) {
+		
+		this.uid = uid;
+		this.displayName = displayName;
+		this.password = password;
+		this.email = email;
+		this.dob = dob;
+		this.role = role;
 	}
 	
 	/**
@@ -112,6 +132,15 @@ public class Identity {
 	public Date getDOB() {
 		return this.dob;
 	}
+
+	/**
+	 * Get role - if is the identity admin
+	 * @return 
+	 */
+	public String getRole() {
+		return this.role;
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

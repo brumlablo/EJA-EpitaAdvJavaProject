@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
@@ -34,63 +35,6 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 	@Inject
 	@Named("dataSourceBean")
 	private DataSource ds;
-	
-	/**
-	 * Constructor with connection to DBS
-	 */
-	public IdentityJDBCDAO() /*throws SQLException*/ {
-		
-		/*try {
-			
-			ds.getConnection();
-		}
-		catch (Exception e) {
-			System.err.println("Exception when connecting to database.");
-			e.printStackTrace();
-			System.exit(-1); // world failure
-		}*/
-	}
-	
-	/**
-	 * Connecting to DBS with given access parameters
-	 * @return current connection
-	 * @throws SQLException 
-	 */
-	/*private Connection getConnection() throws SQLException {
-		
-		try {
-			this.currCon.getSchema();
-			LOGGER.info("connected to this schema:  {}", currCon.getSchema());
-		}
-		catch(Exception e){
-			
-			try {
-				
-				Configuration config = Configuration.getInstance();
-				
-				String user = config.getUser();
-				String password = config.getPwd();
-				String connectionString = config.getCon();
-				//System.out.println(user, password, connectionString);
-				LOGGER.info("connection props: {},{},{}", user, password, connectionString);
-				
-				this.currCon = DriverManager.getConnection(connectionString, user, password);
-				LOGGER.info("connected to this schema:  {}", currCon.getSchema());
-				
-			}
-			catch (IOException e1) {
-				System.err.println("EXCEPTION Config file not found.");
-				e.printStackTrace();
-				System.exit(1);
-			} 
-			catch (SQLException e2){
-				System.err.println("EXCEPTION when connecting to database.");
-				e.printStackTrace();
-				System.exit(-1);
-			}
-		}
-		return currCon;
-	}*/
 	
 	/**
 	 * Authentication of user
@@ -144,16 +88,17 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 			con = ds.getConnection();
 			//Boolean succ = false; // success of operation
 			
-			String insertStatement = "insert into IDENTITIES (IDENTITY_DISPLAYNAME, IDENTITY_PASSWORD, IDENTITY_EMAIL, IDENTITY_BIRTHDATE) "
+			String insertStatement = "insert into IDENTITIES (IDENTITY_DISPLAYNAME, IDENTITY_PASSWORD, IDENTITY_EMAIL, IDENTITY_BIRTHDATE, IDENTITY_ROLE) "
 									+ "VALUES(?, ?, ?, ?)";
 			
 			PreparedStatement pstmt_insert = con.prepareStatement(insertStatement);
 			pstmt_insert.setString(1, identity.getDisplayName());
 			pstmt_insert.setString(2, identity.getPassword());
 			pstmt_insert.setString(3, identity.getEmail());
-			
 			Date now = new Date();
 			pstmt_insert.setDate(4,new java.sql.Date(now.getTime())); // default = now
+			pstmt_insert.setString(5, identity.getRole());
+			
 			
 			pstmt_insert.executeUpdate();
 			// was creation successful?
@@ -201,6 +146,8 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 			pstmt_update.setString(3, identity.getEmail());
 			pstmt_update.setDate(4, identity.getDOB());
 			pstmt_update.setLong(5, identity.getUid());
+			
+			//SIDE NOTE: it should not be possible to change the role by normal user, therefore ommited
 			
 			pstmt_update.executeUpdate();
 			// was modification successful?
@@ -280,7 +227,8 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 				String email = rs.getString("IDENTITY_EMAIL");
 				String password = rs.getString("IDENTITY_PASSWORD");
 				java.sql.Date dob = rs.getDate("IDENTITY_BIRTHDATE");
-				Identity identity = new Identity(uid, displayName, password, email, dob);
+				String role = rs.getString("IDENTITY_ROLE");
+				Identity identity = new Identity(uid, displayName, password, email, dob, role);
 				identities.add(identity);
 			}
 		}
@@ -298,7 +246,9 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 		return identities;
 	}
 
-	@Override
+
+
+	
 	public List<Identity> search(Identity identity) {
 
 		LOGGER.debug("=> search");
@@ -316,7 +266,8 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 				String email = rs.getString("IDENTITY_EMAIL");
 				String password = rs.getString("IDENTITY_PASSWORD");
 				java.sql.Date dob = rs.getDate("IDENTITY_BIRTHDATE");
-				Identity idFound = new Identity(uid, displayName, password, email, dob);
+				String role = rs.getString("IDENTITY_ROLE");
+				Identity idFound = new Identity(uid, displayName, password, email, dob,role);
 				identities.add(idFound);
 			}
 		}
@@ -333,5 +284,7 @@ public class IdentityJDBCDAO implements DAO<Identity> {
 		LOGGER.info("Found identites: {} ",identities);
 		return identities;
 	}
+	
+	
 	
 }
