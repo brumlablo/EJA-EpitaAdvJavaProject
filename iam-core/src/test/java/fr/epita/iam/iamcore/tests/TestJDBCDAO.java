@@ -17,6 +17,9 @@ import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -47,11 +50,24 @@ public class TestJDBCDAO {
 	
 	private static final Logger LOGGER = LogManager.getLogger(TestJDBCDAO.class);
 	
+
+	@Inject
+	SessionFactory sessionFactory;	
+	
 	@Before
 	public void setUp() throws SQLException{
 		
 		LOGGER.info("before test...");
 	
+	}
+	
+	@After
+	public void cleanDBS(){
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		session.createQuery("delete from Identity").executeUpdate();
+		t.commit();
+		session.close();
 	}
 
 	@Test

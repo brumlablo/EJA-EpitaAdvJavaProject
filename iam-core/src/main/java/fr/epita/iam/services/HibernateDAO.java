@@ -30,7 +30,6 @@ import fr.epita.iam.datamodel.Identity;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
-
 @Repository
 public class HibernateDAO implements DAO<Identity> {
 	

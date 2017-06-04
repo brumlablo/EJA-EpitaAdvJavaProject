@@ -12,7 +12,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,6 +37,15 @@ public class TestHibernate {
 	SessionFactory sessionFactory;	
 	
 	private static final Logger LOGGER = LogManager.getLogger(TestHibernate.class);
+	
+	@After
+	public void cleanDBS(){
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		session.createQuery("delete from Identity").executeUpdate();
+		t.commit();
+		session.close();
+	}
 	
 	@Test
 	public void testHibernate(){
@@ -91,6 +103,7 @@ public class TestHibernate {
 		Assert.assertEquals(result.size(), ilSize - 1 );
 			
 	}
+	
 	@Test
 	public void testHibernateHQL(){
 		

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,12 +34,6 @@ public class AuthenticationServlet extends HttpServlet {
     
 	@Autowired
 	DAO<Identity> dao;
-	/**
-     * Default constructor. 
-     */
-    public AuthenticationServlet() {
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,6 +48,7 @@ public class AuthenticationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		LOGGER.info("dao instance loaded: {}",dao);
 		
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);

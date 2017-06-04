@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
 
+
 public interface DAO<T> {
 	
 	//DAO behaviour

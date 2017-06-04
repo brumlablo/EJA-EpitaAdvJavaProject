@@ -9,11 +9,6 @@
 	<context:annotation-config />
 	<context:component-scan base-package="fr.epita.iam.services" />
 	
-	<!-- <bean id="dao" name="dao" class="fr.epita.iam.services.IdentityJDBCDAO" />
-	
-	<bean id="hibDao" name="hibDao" class="fr.epita.iam.services.HibernateDAO" />
-	-->
-	
 	<bean id="propsConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="test.properties"></property>

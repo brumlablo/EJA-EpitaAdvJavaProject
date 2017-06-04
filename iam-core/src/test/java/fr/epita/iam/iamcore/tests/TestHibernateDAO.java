@@ -10,7 +10,10 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +45,15 @@ public class TestHibernateDAO {
 	
 	@Inject
 	SessionFactory sf;
+	
+	@After
+	public void cleanDBS(){
+		Session session = sf.openSession();
+		Transaction t = session.beginTransaction();
+		session.createQuery("delete from Identity").executeUpdate();
+		t.commit();
+		session.close();
+	}
 	
 	@Test
 	public void testEndToEndCrud(){
