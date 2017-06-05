@@ -61,12 +61,12 @@ public class HibernateAddressDAO implements DAO<Address> {
 		LOGGER.info("deleted address : {} ", addr);
 	}
 	
-	public List<Address> search(Address addr) {
+	public List<Address> search(String addr) {
 		
 		Session session = sessionFactory.openSession();	
 		Query query = session.createQuery("FROM Address AS address WHERE address.addr like :addr");
 		//transaction - forces changes in cache to be updated to dbs
-		query.setParameter("addr", "%" + addr.getAddr());
+		query.setParameter("addr", "%" + addr);
 		List<Address> addressList = query.list();
 		session.close();
 		LOGGER.info("searched address : {} ", addr);

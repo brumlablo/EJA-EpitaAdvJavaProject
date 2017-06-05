@@ -25,13 +25,13 @@ import fr.epita.iam.services.AuthenticateUser;
 import fr.epita.iam.services.DAO;
 
 /**
- * Servlet implementation class AuthenticationServlet
+ * Servlet implementation class LogoutServlet
  */
 
-@WebServlet(name="AuthenticationServlet", urlPatterns = {"/authenticate"}) //my selected mapped method
-public class AuthenticationServlet extends HttpServlet {
+@WebServlet(name="LogoutServlet", urlPatterns = {"/logout"}) //my selected mapped method
+public class LogoutServlet extends HttpServlet {
 	
-	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
+	private static final Logger LOGGER = LogManager.getLogger(LogoutServlet.class);
 	private static final long serialVersionUID = 1L;
     
 	@Autowired
@@ -48,33 +48,16 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		LOGGER.info("dao instance loaded: {}",dao);
 		
-		String login = req.getParameter("login"); //user input
-		String pwd = req.getParameter("pwd"); //user input
-		LOGGER.info("trying to authenticate with this login {}", login);
-				
-		/*authentication*/
-		Identity user = AuthenticateUser.getInst().authenticate(login, pwd);
-		if(user == null)
-		{
-			LOGGER.info("Authentication FAIL: The user and password combination does not exists.");
-			req.setAttribute("loginMsgColor", "red");
-			req.setAttribute("loginMsg", "Authentication not successfull.");
-			req.getRequestDispatcher("index.jsp").forward(req, resp);
-			
-		}
-		else
-		{
-			LOGGER.info("Authentication SUCCESS: Logged in!");
-			req.getSession().setAttribute("user", user.getDisplayName());
-			req.getSession().setAttribute("role", user.getRole());
-			resp.sendRedirect("welcome.jsp");
-		}
+		req.getSession().invalidate();
+		LOGGER.info("User LOGGED OUT.");
+		req.setAttribute("loginMsgColor", "green");
+		req.setAttribute("loginMsg", "Successfully logged out.");
+		req.getRequestDispatcher("index.jsp").forward(req, resp);
 		
 	}
-
+	
 }

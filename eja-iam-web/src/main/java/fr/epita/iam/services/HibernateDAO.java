@@ -75,14 +75,16 @@ public class HibernateDAO implements DAO<Identity> {
 	    LOGGER.info("deleted identity:  {}", identity);
 	}
 	
-	public List<Identity> search(Identity identity) {
+	public List<Identity> search(String criteria) {
 		
 		Session session = sessionFactory.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
 		Transaction t = session.beginTransaction();
-		Query query = session.createQuery("FROM Identity AS identity WHERE identity.displayName like :displayName");
+		Query query = session.createQuery("FROM Identity AS identity WHERE identity.displayName like :criteria"
+				+ " or identity.email like :criteria"
+				+ " or identity.dob like :criteria");
 		//transaction - forces changes in cache to be updated to dbs
-		query.setParameter("displayName", "%" + identity.getDisplayName());
+		query.setParameter("criteria", "%" + criteria);
 		ids  = query.list();
 		t.commit();
 		session.close();

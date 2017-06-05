@@ -12,7 +12,7 @@ public interface DAO<T> {
 	public void write(T identity);
 	public void update(T identity);
 	public void erase(T identity);
-	public List<T> search(T identity);
+	public List<T> search(String criteria);
 	public List<T> readAll();
 
 }

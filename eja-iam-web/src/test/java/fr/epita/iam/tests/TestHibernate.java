@@ -76,7 +76,7 @@ public class TestHibernate {
 			
 		Assert.assertEquals(result.size(), ilSize +4 );
 		
-		List<Identity> results = hibDao.search(identity5);
+		List<Identity> results = hibDao.search(identity5.getEmail());
 		LOGGER.info("after search: {}", results);
 		Assert.assertTrue(results.isEmpty());
 		
@@ -85,7 +85,7 @@ public class TestHibernate {
 		hibDao.update(identity2);
 		
 		results.clear();
-		results = hibDao.search(identity2);
+		results = hibDao.search(identity2.getDisplayName());
 		Assert.assertTrue(results != null && ! results.isEmpty());
 		LOGGER.info("results: {}", results.get(0).getEmail());
 		Assert.assertTrue(results.get(0) != null && (results.get(0).getEmail().equals("kopecekslavy@huhu.com")));

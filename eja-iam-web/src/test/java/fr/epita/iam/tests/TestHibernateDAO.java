@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import fr.epita.iam.datamodel.Address;
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
-import fr.epita.iam.services.IdentityJDBCDAO;
 
 
 /**
@@ -65,15 +64,12 @@ public class TestHibernateDAO {
 		identity.setDisplayName("Perlimpinpin");
 		dao.update(identity);
 		
-		Identity criteria = new Identity(null, "Perlimpinpin", null, null, null);
-		
-		
-		List<Identity> results = dao.search(criteria);
+		List<Identity> results = dao.search("Perlimpinpin");
 		Assert.assertTrue(results != null && !results.isEmpty());
 		
 		dao.erase(identity);
 		
-		results = dao.search(criteria);
+		results = dao.search("Perlimpinpin");
 		Assert.assertTrue(results.isEmpty());
 			
 	}
@@ -98,11 +94,11 @@ public class TestHibernateDAO {
 		addrDao.write(addr2);
 		addrDao.write(addr3);
 		
-		List<Address> results = addrDao.search(addr2);
+		List<Address> results = addrDao.search(addrs[0]);
 		LOGGER.info("before search: {} ",results);
 		Assert.assertTrue(results.isEmpty());
 		
-		results = addrDao.search(addr1);
+		results = addrDao.search(addrs[0]);
 		
 		Assert.assertTrue(!results.isEmpty() && results.size() == 1);
 		

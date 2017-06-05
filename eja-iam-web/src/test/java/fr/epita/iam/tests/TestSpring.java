@@ -22,8 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
-import fr.epita.iam.services.IdentityJDBCDAO;
-
 /**
  * @author bb
  *
@@ -40,39 +38,6 @@ public class TestSpring {
 	DAO<Identity> dao;	
 	
 	private static final Logger LOGGER = LogManager.getLogger(TestSpring.class);
-	
-
-	//@BeforeClass
-	public static void globalSetup() throws SQLException{
-		LOGGER.info("beginning the setup");
-		Connection con= getConnection();
-		DatabaseMetaData dbmd = con.getMetaData();
-		ResultSet rs = dbmd.getTables(null, "BBBB", "IDENTITIES", null);
-		PreparedStatement pstmt;
-		if(rs.next())
-		{
-			/*TABLE EXISTS >> ERASE */
-			pstmt = con.prepareStatement("DROP TABLE IDENTITIES");
-			pstmt.execute();
-			con.commit();
-			
-		}
-		pstmt = con.prepareStatement("CREATE TABLE IDENTITIES " 
-			    + " (IDENTITY_UID INT NOT NULL GENERATED ALWAYS AS IDENTITY CONSTRAINT IDENTITY_PK PRIMARY KEY, " 
-			    + " IDENTITY_DISPLAYNAME VARCHAR(255), "
-			    + " IDENTITY_EMAIL VARCHAR(255), "
-			    + " IDENTITY_PASSWORD VARCHAR(255), "
-			    + " IDENTITY_BIRTHDATE DATE, "
-			    + " IDENTITY_ROLE BOOLEAN "
-			    + " )");
-		
-		pstmt.execute();
-		con.commit();
-		pstmt.close();
-		con.close();
-		LOGGER.info("setup finished : ready to proceed with the testcase");
-		
-	}
 	
 	/**
 	 * @return

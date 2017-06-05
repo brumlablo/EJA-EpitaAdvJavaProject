@@ -34,7 +34,7 @@ public class Identity {
 	@Column(name="IDENTITY_EMAIL")
 	private String email;
 	@Column(name="IDENTITY_BIRTHDATE")
-	private Date dob;
+	private String dob;
 	@Column(name="IDENTITY_ROLE")
 	private String role;
 	
@@ -45,7 +45,7 @@ public class Identity {
 	 * @param email email
 	 * @param dob date of birth
 	 */
-	public Identity(Long uid, String displayName, String password, String email,Date dob) {
+	public Identity(Long uid, String displayName, String password, String email, String dob) {
 		
 		this.uid = uid;
 		this.displayName = displayName;
@@ -63,7 +63,7 @@ public class Identity {
 	 * @param dob date of birth
 	 * @param isAdmin is identity the admin?
 	 */
-	public Identity(Long uid, String displayName, String password, String email,Date dob, String role) {
+	public Identity(Long uid, String displayName, String password, String email,String dob, String role) {
 		
 		this.uid = uid;
 		this.displayName = displayName;
@@ -126,11 +126,22 @@ public class Identity {
 	}
 
 	/**
+	 * Set password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	/**
 	 * Get Date
 	 * @return date of birth
 	 */
-	public Date getDOB() {
+	public String getDOB() {
 		return this.dob;
+	}
+	
+	public void setDOB(String dob) {
+		this.dob = dob;
 	}
 
 	/**
@@ -141,6 +152,9 @@ public class Identity {
 		return this.role;
 	}
 	
+	public void setRole(String role) {
+		this.role = role;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

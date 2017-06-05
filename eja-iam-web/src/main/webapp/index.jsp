@@ -11,8 +11,11 @@
 </head>
 <body>
 	<div class="container">
-	<h2 class="title">EPITA Java Application - log in!</h2>
+	<h2 class="title">EJA Epita Java Application - log in!</h2>
 		
+		<br>
+		<p style = "color:${loginMsgColor};">${loginMsg}</p>
+		<br>
 		<form action="authenticate" method="post" role="form">
 			<div class="form-group">
 				<label>Login</label>
