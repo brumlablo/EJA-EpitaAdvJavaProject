@@ -24,7 +24,7 @@ public class HibernateAddressDAO implements DAO<Address> {
 	@Inject
 	SessionFactory sessionFactory;
 	
-	private static final Logger LOGGER = LogManager.getLogger(HibernateDAO.class);
+	private static final Logger LOGGER = LogManager.getLogger(HibernateAddressDAO.class);
 	
 	public HibernateAddressDAO() {
 		

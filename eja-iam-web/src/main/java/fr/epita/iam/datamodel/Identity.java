@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import fr.epita.iam.services.PasswordEndecryptor;
+
 /**
  * Identity object
  * @author bb
@@ -38,6 +40,7 @@ public class Identity {
 	@Column(name="IDENTITY_ROLE")
 	private String role;
 	
+	
 	/**
 	 * @param uid unique id
 	 * @param displayName name
@@ -49,7 +52,7 @@ public class Identity {
 		
 		this.uid = uid;
 		this.displayName = displayName;
-		this.password = password;
+		this.password = PasswordEndecryptor.getInst().hashPwd(password);
 		this.email = email;
 		this.dob = dob;
 		this.role = "user"; // default = user
@@ -67,7 +70,7 @@ public class Identity {
 		
 		this.uid = uid;
 		this.displayName = displayName;
-		this.password = password;
+		this.password = PasswordEndecryptor.getInst().hashPwd(password);
 		this.email = email;
 		this.dob = dob;
 		this.role = role;
@@ -119,7 +122,7 @@ public class Identity {
 
 	/**
 	 * Get password
-	 * @return password
+	 * @return password in bcrypt hash
 	 */
 	public String getPassword() {
 		return this.password;
@@ -129,7 +132,7 @@ public class Identity {
 	 * Set password
 	 */
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = PasswordEndecryptor.getInst().hashPwd(password);
 	}
 	
 	/**

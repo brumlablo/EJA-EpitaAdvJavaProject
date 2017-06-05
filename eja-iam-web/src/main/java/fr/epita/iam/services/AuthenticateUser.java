@@ -23,6 +23,8 @@ public class AuthenticateUser {
 	//singleton!
 	private static AuthenticateUser inst = null;
 	
+	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
+	
 	protected AuthenticateUser(){
 		
 	}
@@ -41,18 +43,27 @@ public class AuthenticateUser {
 		Session session = sf.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
 		Transaction t = session.beginTransaction();
-		Query query = session.createQuery("FROM Identity AS identity WHERE identity.displayName = :login"
-				+ " and identity.password = :pwd");
+		Query query = session.createQuery("FROM Identity AS identity WHERE identity.displayName = :login");
 		//transaction - forces changes in cache to be updated to dbs
 		query.setParameter("login", login);
-		query.setParameter("pwd", pwd);
 		ids  = query.list();
 		t.commit();
 		session.close();
 		
-		if(!ids.isEmpty())
-			return ids.get(0);
+		if(ids.isEmpty())
+			return null;
 		
+		// hashed password decryption and authentication
+		for(Identity id : ids)
+		{
+			if(PasswordEndecryptor.getInst().checkPwd(pwd, id.getPassword()))
+			{
+				LOGGER.info("Authentication should be succesfull!");
+				return id;
+			}
+				
+		}
+		LOGGER.info("Authentication should NOT be succesfull!");
 		return null;
 	}
 	

@@ -14,13 +14,23 @@ import org.mindrot.jbcrypt.*;
 public class PasswordEndecryptor {
 	
 	//value <10,31>
-	private static int workload = 10;
+	private static int workload = 16;
+	
+	public static PasswordEndecryptor inst = null;
 			
-	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
+	private static final Logger LOGGER = LogManager.getLogger(PasswordEndecryptor.class);
 	
 	public PasswordEndecryptor()
 	{
 		
+	}
+	
+	public static PasswordEndecryptor getInst()
+	{
+		if(inst == null)
+			inst = new PasswordEndecryptor();
+		
+		return inst;
 	}
 	
 	public static String hashPwd(String pwdPlain)
@@ -42,29 +52,5 @@ public class PasswordEndecryptor {
 		isVerified = BCrypt.checkpw(loginInput, dbsHash);
 
 		return(isVerified);
-	}
-	
-	public static void main(String[] args)
-	{
-		String test_passwd = "abcdefghijklmnopqrstuvwxyz";
-		String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";
-
-		LOGGER.info("Testing BCrypt Password hashing and verification");
-		LOGGER.info("Test password: {}", test_passwd);
-		LOGGER.info("Test stored hash: {}", test_hash);
-		LOGGER.info("Hashing test password...");
-
-		String computed_hash = hashPwd(test_passwd);
-		LOGGER.info("Test computed hash: {}", computed_hash);
-		LOGGER.info("Verifying that hash and stored hash both match for the test password...");
-
-		String compare_test = checkPwd(test_passwd, test_hash)
-			? "Passwords Match" : "Passwords do not match";
-		String compare_computed = checkPwd(test_passwd, computed_hash)
-			? "Passwords Match" : "Passwords do not match";
-
-		LOGGER.info("Verify against stored hash:   {}", compare_test);
-		LOGGER.info("Verify against computed hash: {}", compare_computed);
-
 	}
 }
