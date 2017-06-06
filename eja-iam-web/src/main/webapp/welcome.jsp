@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" 
+       uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>E J A Welcome page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>E J A: Welcome page</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -27,16 +29,31 @@
 
                 <p>Thanks to this action, you can create a brand new Identity, you can click on the button below to
                     begin</p>
-                 <a href="createIdentity.jsp">
-                <button class="btn">Create!</button>
+                
+                  <c:choose>
+						<c:when test="${ sessionScope.role.equals('user')}">
+						 	<c:set var = "disabled" scope = "session" value = "disabled=\"disabled\""/>
+						 	<c:set var = "createRestrictionMsg" scope = "session" value = "Sorry, you don't have rights to create new identity."/>
+						</c:when>    
+						<c:otherwise>
+						 	<c:set var = "disabled" scope = "session" value = ""/>
+						 	<c:set var = "createRestrictionMsg" scope = "session" value = ""/>
+						</c:otherwise>
+				  </c:choose>
+                
+                <a href="createIdentity.jsp">
+                <button type="button" class="btn btn-primary" <c:out value = "${disabled}"/>>Create!</button>
                 </a>
+                <h5 style="color:#5A5B5E;"><c:out value = "${createRestrictionMsg}"/></h5>
             </div>
             <div class="col-xs-6">
                 <h4>Identity Search</h4>
 
                 <p>Thanks to this action, you can search an identity and then access to its information. Through this
                     action, you can also modify or delete the wished identity</p>
-                <button>Search!</button>
+                <a href="searchIdentity.jsp">
+                	<button type="button" class="btn btn-primary">Search!</button>
+                </a>
             </div>
         </div>
     </div>

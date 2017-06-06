@@ -84,7 +84,7 @@ public class HibernateDAO implements DAO<Identity> {
 				+ " or identity.email like :criteria"
 				+ " or identity.dob like :criteria");
 		//transaction - forces changes in cache to be updated to dbs
-		query.setParameter("criteria", "%" + criteria);
+		query.setParameter("criteria", "%" + criteria + "%");
 		ids  = query.list();
 		t.commit();
 		session.close();
@@ -92,13 +92,6 @@ public class HibernateDAO implements DAO<Identity> {
 		
 	}
 	
-	
-	/*public Identity searchIdentityById(long id) {
-		
-		Session session = sessionFactory.openSession();
-		return (Identity)session.load(Identity.class,id);
-	
-	}*/
 	
 	public List<Identity>readAll() {
 		
@@ -137,4 +130,27 @@ public class HibernateDAO implements DAO<Identity> {
 		return ids;
 		
 	}
+
+	/*search by id*/
+	@Override
+	public Identity search(Long id) {
+		
+		//LOGGER.info("retrieving identity with id : {} ", id);
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		String queryString = "from Identity as identity where identity.id = :id";
+		Query query = session.createQuery(queryString);
+		query.setParameter("id", id);
+		List<Identity> identities = query.list();
+		t.commit();
+		session.close();
+		return identities.get(0);
+	}
+	
+	/*public Identity searchIdentityById(long id) {
+		
+		Session session = sessionFactory.openSession();
+		return (Identity)session.load(Identity.class,id);
+	
+	}*/
 }

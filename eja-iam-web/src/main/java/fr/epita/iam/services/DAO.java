@@ -13,6 +13,7 @@ public interface DAO<T> {
 	public void update(T identity);
 	public void erase(T identity);
 	public List<T> search(String criteria);
+	public T search(Long id);
 	public List<T> readAll();
 
 }

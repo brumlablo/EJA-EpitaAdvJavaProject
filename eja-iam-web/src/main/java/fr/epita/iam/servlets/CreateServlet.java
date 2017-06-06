@@ -20,6 +20,9 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
 
+/**
+ * Servlet implementation class CreateServlet
+ */
 @WebServlet(name="CreateServlet", urlPatterns = {"/create"})
 public class CreateServlet extends HttpServlet {
 
@@ -38,7 +41,7 @@ public class CreateServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 		String date = req.getParameter("date");
-		String role = req.getParameter("usertype");
+		String role = req.getParameter("role");
 		
 		//Unchecked radiobox >> user
 		if(role == null)
@@ -51,11 +54,9 @@ public class CreateServlet extends HttpServlet {
 			date = new java.sql.Date(cal.getTime().getTime()).toString();
 		}
 
-		LOGGER.info("Creating user: {} {} {} {} {}", username, password, email, date, role);
-		Identity newUser = new Identity(null,username,password,email,date,role);
-		
-		dao.write(newUser);
-		req.setAttribute("statusMsg", "Successfully created new identity.");
+		//LOGGER.info("Creating user: {} {} {} {} {}", username, password, email, date, role);
+		dao.write(new Identity(null,username,password,email,date,role));
+		req.setAttribute("statusMsg", "Identity successfully created.");
 		req.setAttribute("statusColor", "green");
 		req.getRequestDispatcher("welcome.jsp").forward(req, resp);
 	}

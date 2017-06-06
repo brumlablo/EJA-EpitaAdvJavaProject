@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>E J A: Create new identity</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -15,25 +15,25 @@
 
     <div class="container">
         <h2 class="text-info">New Identity Creation </h2>
-        <br>
+        <p>
         <a href="welcome.jsp">&lt;&lt; back</a>
-        <br>
+        </p>
     </div>
     
     <form class="form-horizontal" role="form" action="create" method="post">
         <div class="form-group">
-            <label for="username" class="col-sm-2 control-label">User name</label>
+            <label for="username" class="col-sm-2 control-label">Username</label>
 
             <div class="col-sm-10">
-                <input required="true" type="text" class="form-control" id="username" name="username" placeholder="User name" />
+                <input required="true" type="text" class="form-control" id="username" name="username" placeholder="Username" />
             </div>
         </div>
         
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">User password</label>
+            <label for="password" class="col-sm-2 control-label">Password</label>
 
             <div class="col-sm-10">
-                <input required="true" type="password" class="form-control" id="password" name="password" placeholder="User password" />
+                <input required="true" type="password" class="form-control" id="password" name="password" placeholder="Password" />
             </div>
         </div>
        
@@ -54,10 +54,10 @@
         </div>
 
 		<div class="form-group">
-			<label for="usertype" class="col-sm-2 control-label">Admin?</label>
-				<input type="checkbox" id="usertype" name="usertype" value="admin">
+			<label for="role" class="col-sm-2 control-label">Admin</label>
 			<div class="col-sm-10">
-            </div>
+				<input class="checkbox" type="checkbox" class="form-control" id="role" name="role" value="admin">
+			</div>
 		</div>
 
 

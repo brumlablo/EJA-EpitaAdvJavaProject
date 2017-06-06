@@ -79,4 +79,10 @@ public class HibernateAddressDAO implements DAO<Address> {
 		return null;
 	}
 
+	@Override
+	public Address search(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

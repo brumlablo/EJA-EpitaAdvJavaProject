@@ -72,7 +72,18 @@ public class AuthenticationServlet extends HttpServlet {
 			LOGGER.info("Authentication SUCCESS: Logged in!");
 			req.getSession().setAttribute("user", user.getDisplayName());
 			req.getSession().setAttribute("role", user.getRole());
+			//user is not supposed to be able to create new identity
+			/*if(user.getRole().equals("user")) {
+				req.setAttribute("disabled", "disabled=\"disabled\"");
+				req.setAttribute("createRestrictionMsg", "<h5>Sorry, you don't have rights to create new identity.</h5>");
+			}
+			else
+			{
+				req.setAttribute("disabled", "");
+				req.setAttribute("createRestrictionMsg", "<h5></h5>");
+			}*/
 			resp.sendRedirect("welcome.jsp");
+			//req.getRequestDispatcher("welcome.jsp").forward(req, resp);
 		}
 		
 	}
