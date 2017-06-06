@@ -30,16 +30,16 @@
                 <p>Thanks to this action, you can create a brand new Identity, you can click on the button below to
                     begin</p>
                 
-                  <c:choose>
-						<c:when test="${ sessionScope.role.equals('user')}">
-						 	<c:set var = "disabled" scope = "session" value = "disabled=\"disabled\""/>
-						 	<c:set var = "createRestrictionMsg" scope = "session" value = "Sorry, you don't have rights to create new identity."/>
-						</c:when>    
-						<c:otherwise>
-						 	<c:set var = "disabled" scope = "session" value = ""/>
-						 	<c:set var = "createRestrictionMsg" scope = "session" value = ""/>
-						</c:otherwise>
-				  </c:choose>
+                 <c:choose>
+					<c:when test="${ sessionScope.role.equals('user')}">
+					 	<c:set var = "disabled" scope = "session" value = "disabled=\"disabled\""/>
+					 	<c:set var = "createRestrictionMsg" scope = "session" value = "Sorry, you don't have rights to create new identity."/>
+					</c:when>    
+					<c:otherwise>
+					 	<c:set var = "disabled" scope = "session" value = ""/>
+					 	<c:set var = "createRestrictionMsg" scope = "session" value = ""/>
+					</c:otherwise>
+			  	</c:choose>
                 
                 <a href="createIdentity.jsp">
                 <button type="button" class="btn btn-primary" <c:out value = "${disabled}"/>>Create!</button>

@@ -25,7 +25,16 @@
 		</p>
         <h3 class="text-info">Search Criteria</h3>
     </div>
-
+	<c:choose>
+		<c:when test="${ sessionScope.role.equals('user')}">
+		 	<c:set var = "disabled" scope = "session" value = "disabled=\"disabled\""/>
+		 	<c:set var = "createRestrictionMsg" scope = "session" value = "Sorry, you don't have rights to modify or delete identity."/>
+		</c:when>    
+		<c:otherwise>
+		 	<c:set var = "disabled" scope = "session" value = ""/>
+		 	<c:set var = "createRestrictionMsg" scope = "session" value = ""/>
+		</c:otherwise>
+	</c:choose>
 
     <form class="form-horizontal" role="form" action="search" method="post">
         <div class="form-group">
@@ -58,7 +67,7 @@
                     <tbody>
                     <c:forEach items="${identities}" var="id">
 					<tr>      
-						<td> <input name="selection" type="radio" value="${id.uid}" required/></td>
+						<td> <input name="selection" type="radio" value="${id.uid}" <c:out value = "${disabled}"/> required/></td>
 						<td>${id.uid}</td>
 						<td>${id.displayName}</td>
 						<td>${id.email}</td>
@@ -70,11 +79,12 @@
                 </table>
             </div>
             <div class="form-group">
-                <div class=" col-sm-offset-2 col-sm-10 text-right">
-                    <button type="submit" class="btn btn-success" name="action" value="update">Modify</button>
-                    <button type="submit" class = "btn btn-danger"name="action" value="delete">Delete</button>
-                    <button type="button" class="btn btn-default" id="cancelButton" onclick="javascript:reloadPage()">Cancel</button>
-                </div>
+	        	<div class="col-sm-offset-2 col-sm-10 text-right">
+		            <button type="submit" class="btn btn-success" name="action" value="update" <c:out value = "${disabled}"/>>Modify</button>
+		            <button type="submit" class = "btn btn-danger"name="action" value="delete" <c:out value = "${disabled}"/>>Delete</button>
+		            <button type="button" class="btn btn-default" id="cancelButton" onclick="javascript:reloadPage()">Cancel</button>
+		            <h5 style="color:#5A5B5E;"><c:out value = "${createRestrictionMsg}"/></h5>
+	            </div>
             </div>
         </form>
     </div>
