@@ -1,6 +1,5 @@
 package fr.epita.iam.services;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +11,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 
 import fr.epita.iam.datamodel.Address;
-import fr.epita.iam.datamodel.Identity;
 
 /**
  * Class for storing address to identity
@@ -87,7 +84,8 @@ public class AddressDAO implements DAO<Address> {
 		Query query = session.createQuery("FROM Address AS address WHERE address.addr like :addr");
 		//transaction - forces changes in cache to be updated to dbs
 		query.setParameter("addr", "%" + addr);
-		List<Address> addressList = query.list();
+		List<Address> addressList = new ArrayList<Address>();
+		addressList = query.list();
 		session.close();
 		LOGGER.info("searched address : {} ", addr);
 		return addressList;

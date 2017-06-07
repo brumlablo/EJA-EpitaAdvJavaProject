@@ -31,7 +31,7 @@
             <label class="col-sm-2 control-label" for="userName">Username</label>
 
             <div class="col-sm-10">
-                <input class="form-control" id="userName" name="userName" type="text" placeholder="Username" value="${identity.displayName}" required/>
+                <input readonly="readonly" class="form-control" id="userName" name="userName" type="text" value="${identity.displayName}"/>
             </div>
         </div>
         <div class="form-group">

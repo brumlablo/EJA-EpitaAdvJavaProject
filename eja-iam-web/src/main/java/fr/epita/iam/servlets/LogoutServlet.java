@@ -1,8 +1,6 @@
 package fr.epita.iam.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -10,18 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.services.AuthenticateUser;
 import fr.epita.iam.services.DAO;
 
 /**
@@ -46,6 +39,12 @@ public class LogoutServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
+	/**
+	 * Runs whilst clicking on "disconnect" link on welcome page (welcome.jsp), by default doGet method
+	 * @param HttpServletRequest req http request
+	 * @param HttpServletResponse resp http response
+     */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		

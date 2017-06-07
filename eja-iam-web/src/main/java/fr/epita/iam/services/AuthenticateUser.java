@@ -16,7 +16,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import fr.epita.iam.datamodel.Identity;
 
 /**
- * Class authenticating the user
+ * Class authenticating the user using PasswordEndecryptor
  * */
 @Repository
 public class AuthenticateUser {
@@ -70,15 +70,16 @@ public class AuthenticateUser {
 		//there should be only one identity to a single displayname!
 		for(Identity id : ids)
 		{
+			PasswordEndecryptor.getInst();
 			// hashed password decryption and authentication
-			if(PasswordEndecryptor.getInst().checkPwd(pwd, id.getPassword()))
+			if(PasswordEndecryptor.checkPwd(pwd, id.getPassword()))
 			{
-				LOGGER.info("Authentication should be succesfull!");
+				LOGGER.debug("Authentication should be succesfull!");
 				return id;
 			}
 				
 		}
-		LOGGER.info("Authentication should NOT be succesfull!");
+		LOGGER.debug("Authentication should NOT be succesfull!");
 		return null;
 	}
 	

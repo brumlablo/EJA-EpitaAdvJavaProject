@@ -1,9 +1,6 @@
 package fr.epita.iam.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -14,14 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
-import fr.epita.iam.services.IdentityDAO;
-import fr.epita.iam.services.PasswordEndecryptor;
 
 /**
  * Servlet implementation class ControlServlet - go to modifyIdentity.jsp or delete identity
@@ -35,7 +28,12 @@ public class ControlServlet extends HttpServlet {
 	@Inject
 	DAO<Identity> dao;
        
-
+	/**
+	 * Takes form inputs from identity selected in the form list  in Searching page (search.jsp) 
+	 * and decides if modify (>> Modification page) or delete identity based on selected action by clicking on corresponding button
+	 * @param HttpServletRequest req http request
+	 * @param HttpServletResponse resp http response
+     */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
@@ -64,13 +62,13 @@ public class ControlServlet extends HttpServlet {
 			Long loggedUserUid = (Long) req.getSession().getAttribute("uid");
 			if(selectedId.getUid().equals(loggedUserUid))
 			{
-				LOGGER.info("Deleting identity {}", selectedId.getDisplayName());
+				LOGGER.info("You cannot delete yourself.");
 				req.setAttribute("statusMsg", "You cannot delete yourself.");
 				req.setAttribute("statusColor", "red");
 			}
 			else
 			{
-				LOGGER.info("You cannot delete yourself.");
+				//LOGGER.info("Deleting identity {}", selectedId.getDisplayName());
 				dao.erase(selectedId);
 				req.setAttribute("statusMsg", "Identity successfully deleted.");
 				req.setAttribute("statusColor", "green");

@@ -2,8 +2,6 @@ package fr.epita.iam.services;
 
 import java.util.List;
 
-import fr.epita.iam.datamodel.Identity;
-
 /*
  * Interface for DAOs
  * */

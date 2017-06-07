@@ -33,7 +33,11 @@ public class ModifyServlet extends HttpServlet {
 	@Inject
 	DAO<Identity> dao;
        
-
+	/**
+	 * Takes form inputs from Identity creation (create.jsp)
+	 * @param HttpServletRequest req http request
+	 * @param HttpServletResponse resp http response
+     */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

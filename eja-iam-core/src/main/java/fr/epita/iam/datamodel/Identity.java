@@ -3,8 +3,6 @@
  */
 package fr.epita.iam.datamodel;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +50,8 @@ public class Identity {
 		
 		this.uid = uid;
 		this.displayName = displayName;
-		this.password = PasswordEndecryptor.getInst().hashPwd(password);
+		PasswordEndecryptor.getInst();
+		this.password = PasswordEndecryptor.hashPwd(password);
 		this.email = email;
 		this.dob = dob;
 		this.role = "user"; // default = user
@@ -70,7 +69,8 @@ public class Identity {
 		
 		this.uid = uid;
 		this.displayName = displayName;
-		this.password = PasswordEndecryptor.getInst().hashPwd(password);
+		PasswordEndecryptor.getInst();
+		this.password = PasswordEndecryptor.hashPwd(password);
 		this.email = email;
 		this.dob = dob;
 		this.role = role;
@@ -140,7 +140,8 @@ public class Identity {
 	 * @param password password in plain text
 	 */
 	public void setPassword(String password) {
-		this.password = PasswordEndecryptor.getInst().hashPwd(password);
+		PasswordEndecryptor.getInst();
+		this.password = PasswordEndecryptor.hashPwd(password);
 	}
 	
 	/**

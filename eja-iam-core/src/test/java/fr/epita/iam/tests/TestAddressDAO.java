@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,9 +29,6 @@ import fr.epita.iam.services.DAO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
 public class TestAddressDAO {
-	
-	private static final Logger LOGGER = LogManager.getLogger(TestAddressDAO.class);
-
 	
 	@Inject
 	DAO<Identity> dao;

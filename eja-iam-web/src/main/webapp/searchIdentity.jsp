@@ -39,7 +39,7 @@
     <form class="form-horizontal" role="form" action="search" method="post">
         <div class="form-group">
             <div class="col-sm-offset-1 col-md-10">
-                <input type="text" class="form-control" name="searchCriteria" id="searchCriteriaInput" placeholder="Search identity by its login, e-mail or birth date..." />
+                <input type="text" class="form-control" name="searchCriteria" id="searchCriteriaInput" placeholder="Either search identity by its login, e-mail or birth date, or click directly on Search button to list all..." />
         	</div>
         </div>
         <div class="form-group">

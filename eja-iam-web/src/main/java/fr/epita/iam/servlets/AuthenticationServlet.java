@@ -1,8 +1,6 @@
 package fr.epita.iam.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -10,15 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.AuthenticateUser;
@@ -47,6 +41,12 @@ public class AuthenticationServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
+	/**
+	 * Takes form inputs from login page (index.jsp), by default form >> doPost method
+	 * @param HttpServletRequest req http request
+	 * @param HttpServletResponse resp http response
+     */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -73,18 +73,7 @@ public class AuthenticationServlet extends HttpServlet {
 			req.getSession().setAttribute("user", user.getDisplayName());
 			req.getSession().setAttribute("uid", user.getUid());
 			req.getSession().setAttribute("role", user.getRole());
-			//user is not supposed to be able to create new identity
-			/*if(user.getRole().equals("user")) {
-				req.setAttribute("disabled", "disabled=\"disabled\"");
-				req.setAttribute("createRestrictionMsg", "<h5>Sorry, you don't have rights to create new identity.</h5>");
-			}
-			else
-			{
-				req.setAttribute("disabled", "");
-				req.setAttribute("createRestrictionMsg", "<h5></h5>");
-			}*/
 			resp.sendRedirect("welcome.jsp");
-			//req.getRequestDispatcher("welcome.jsp").forward(req, resp);
 		}
 		
 	}
