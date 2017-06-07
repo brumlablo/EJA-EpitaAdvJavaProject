@@ -1,4 +1,4 @@
-# EPIJavaDBS
+# EJA-EpitaAdvJavaProject
 
 ## Java project EPITA Advanced Java class of Spring 2017
 
