@@ -25,7 +25,7 @@ import fr.epita.iam.services.AuthenticateUser;
 import fr.epita.iam.services.DAO;
 
 /**
- * Servlet implementation class AuthenticationServlet
+ * Servlet implementation class AuthenticationServlet - authenticates the user
  */
 
 @WebServlet(name="AuthenticationServlet", urlPatterns = {"/authenticate"}) //my selected mapped method
@@ -34,7 +34,7 @@ public class AuthenticationServlet extends HttpServlet {
 	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
 	private static final long serialVersionUID = 1L;
     
-	@Autowired
+	@Inject
 	DAO<Identity> dao;
 
 	/**
@@ -71,6 +71,7 @@ public class AuthenticationServlet extends HttpServlet {
 		{
 			LOGGER.info("Authentication SUCCESS: Logged in!");
 			req.getSession().setAttribute("user", user.getDisplayName());
+			req.getSession().setAttribute("uid", user.getUid());
 			req.getSession().setAttribute("role", user.getRole());
 			//user is not supposed to be able to create new identity
 			/*if(user.getRole().equals("user")) {

@@ -10,11 +10,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.servlets.AuthenticationServlet;
 
+/**
+ * Class authenticating the user
+ * */
+@Repository
 public class AuthenticateUser {
 	
 	@Autowired
@@ -23,12 +27,16 @@ public class AuthenticateUser {
 	//singleton!
 	private static AuthenticateUser inst = null;
 	
-	private static final Logger LOGGER = LogManager.getLogger(AuthenticationServlet.class);
+	private static final Logger LOGGER = LogManager.getLogger(AuthenticateUser.class);
 	
 	protected AuthenticateUser(){
 		
 	}
 	
+	/**
+	 * Singleton constructor
+	 * @return inst instance of this class
+	 */
 	public static AuthenticateUser getInst()
 	{
 		if(inst == null)
@@ -37,9 +45,15 @@ public class AuthenticateUser {
 		return inst;
 	}
 	
+	/**
+	 * Authenticate the user in dbs
+	 * @param login user login
+	 * @param pwd user password
+	 * */
 	public Identity authenticate(String login, String pwd){
+			
 		
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);	
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		Session session = sf.openSession();
 		List<Identity> ids = new ArrayList<Identity>();
 		Transaction t = session.beginTransaction();
@@ -53,9 +67,10 @@ public class AuthenticateUser {
 		if(ids.isEmpty())
 			return null;
 		
-		// hashed password decryption and authentication
+		//there should be only one identity to a single displayname!
 		for(Identity id : ids)
 		{
+			// hashed password decryption and authentication
 			if(PasswordEndecryptor.getInst().checkPwd(pwd, id.getPassword()))
 			{
 				LOGGER.info("Authentication should be succesfull!");

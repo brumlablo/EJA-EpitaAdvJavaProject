@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
-import fr.epita.iam.services.HibernateDAO;
+import fr.epita.iam.services.IdentityDAO;
 import fr.epita.iam.services.PasswordEndecryptor;
 
 /**
@@ -30,7 +32,7 @@ public class ControlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(ControlServlet.class);
 	
-	@Autowired
+	@Inject
 	DAO<Identity> dao;
        
 
@@ -59,10 +61,20 @@ public class ControlServlet extends HttpServlet {
 		} 
 		else if(selectedAction.equals("delete")) 
 		{
-			//LOGGER.info("Deleting identity {}", selectedId.getDisplayName());
-			dao.erase(selectedId);
-			req.setAttribute("statusMsg", "Identity successfully deleted.");
-			req.setAttribute("statusColor", "green");
+			Long loggedUserUid = (Long) req.getSession().getAttribute("uid");
+			if(selectedId.getUid().equals(loggedUserUid))
+			{
+				LOGGER.info("Deleting identity {}", selectedId.getDisplayName());
+				req.setAttribute("statusMsg", "You cannot delete yourself.");
+				req.setAttribute("statusColor", "red");
+			}
+			else
+			{
+				LOGGER.info("You cannot delete yourself.");
+				dao.erase(selectedId);
+				req.setAttribute("statusMsg", "Identity successfully deleted.");
+				req.setAttribute("statusColor", "green");
+			}
 			req.getRequestDispatcher("welcome.jsp").forward(req, resp);
 		}
 		else

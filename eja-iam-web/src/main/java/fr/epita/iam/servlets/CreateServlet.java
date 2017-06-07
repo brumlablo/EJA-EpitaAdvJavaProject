@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
 
 /**
- * Servlet implementation class CreateServlet
+ * Servlet implementation class CreateServlet - identity creation
  */
 @WebServlet(name="CreateServlet", urlPatterns = {"/create"})
 public class CreateServlet extends HttpServlet {
@@ -29,7 +30,7 @@ public class CreateServlet extends HttpServlet {
 	private static final Logger LOGGER = LogManager.getLogger(CreateServlet.class);
 	private static final long serialVersionUID = 1L;
     
-	@Autowired
+	@Inject
 	DAO<Identity> dao;
 	
 	@Override

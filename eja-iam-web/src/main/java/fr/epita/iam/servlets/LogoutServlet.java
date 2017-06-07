@@ -25,16 +25,15 @@ import fr.epita.iam.services.AuthenticateUser;
 import fr.epita.iam.services.DAO;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class LogoutServlet - logging out
  */
-
 @WebServlet(name="LogoutServlet", urlPatterns = {"/logout"}) //my selected mapped method
 public class LogoutServlet extends HttpServlet {
 	
 	private static final Logger LOGGER = LogManager.getLogger(LogoutServlet.class);
 	private static final long serialVersionUID = 1L;
     
-	@Autowired
+	@Inject
 	DAO<Identity> dao;
 
 	/**

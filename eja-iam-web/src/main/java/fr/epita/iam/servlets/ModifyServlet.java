@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,16 +19,18 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.DAO;
-import fr.epita.iam.services.HibernateDAO;
+import fr.epita.iam.services.IdentityDAO;
 
-
+/**
+ * Servlet implementation class ModifyServlet - modify the user
+ */
 @WebServlet(name="ModifyServlet", urlPatterns = {"/modify"})
 public class ModifyServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(ModifyServlet.class);
 	
-	@Autowired
+	@Inject
 	DAO<Identity> dao;
        
 
