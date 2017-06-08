@@ -70,7 +70,7 @@ public class ControlServlet extends HttpServlet {
 			{
 				//LOGGER.info("Deleting identity {}", selectedId.getDisplayName());
 				dao.erase(selectedId);
-				req.setAttribute("statusMsg", "Identity successfully deleted.");
+				req.setAttribute("statusMsg", "User successfully deleted.");
 				req.setAttribute("statusColor", "green");
 			}
 			req.getRequestDispatcher("welcome.jsp").forward(req, resp);

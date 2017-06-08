@@ -71,7 +71,7 @@ public class CreateServlet extends HttpServlet {
 		
 		if(isBanned)
 		{
-			req.setAttribute("statusMsg", "You cannot create identity with existing username. Try empty search to see all users.");
+			req.setAttribute("statusMsg", "You cannot create user with existing username. Try empty search to see all users.");
 			req.setAttribute("statusColor", "red");
 			
 		}
@@ -79,7 +79,7 @@ public class CreateServlet extends HttpServlet {
 		{
 			//LOGGER.info("Creating user: {} {} {} {} {}", username, password, email, date, role);
 			dao.write(new Identity(null,username,password,email,date,role));
-			req.setAttribute("statusMsg", "Identity successfully created.");
+			req.setAttribute("statusMsg", "User successfully created.");
 			req.setAttribute("statusColor", "green");
 		}
 		req.getRequestDispatcher("welcome.jsp").forward(req, resp);

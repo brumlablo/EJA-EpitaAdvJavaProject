@@ -67,7 +67,7 @@ public class ModifyServlet extends HttpServlet {
 		
 		
 		dao.update(modifiedId);
-		request.setAttribute("statusMsg", "Identity successfully updated.");
+		request.setAttribute("statusMsg", "User successfully updated.");
 		request.setAttribute("statusColor", "green");
 		request.getRequestDispatcher("welcome.jsp").forward(request, response);
 		
