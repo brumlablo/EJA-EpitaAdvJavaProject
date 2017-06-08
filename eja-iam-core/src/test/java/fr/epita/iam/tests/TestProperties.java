@@ -16,7 +16,7 @@ import org.junit.Test;
 /**
  * @author bb
  * 
- * ! CONFIGURATION: -ea -Dfr.epita.iam.confFilePath="<<PATH TO THE \dbs.properties>>"
+ * ! CONFIGURATION: -ea -Dfr.epita.iam.confFilePath="PATH TO THE \dbs.properties"
  *
  */
 public class TestProperties {

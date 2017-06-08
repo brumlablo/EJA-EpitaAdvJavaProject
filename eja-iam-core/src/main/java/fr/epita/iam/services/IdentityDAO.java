@@ -137,6 +137,7 @@ public class IdentityDAO implements DAO<Identity> {
 	/**
 	 * Search identity by address
 	 * @param addr search address criteria
+	 * @return list of found identities
 	 */
 	public List<Identity> searchbyAddr(String addr) {
 		

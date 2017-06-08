@@ -49,6 +49,7 @@ public class AuthenticateUser {
 	 * Authenticate the user in dbs
 	 * @param login user login
 	 * @param pwd user password
+	 * @return authenticated identity
 	 * */
 	public Identity authenticate(String login, String pwd){
 			

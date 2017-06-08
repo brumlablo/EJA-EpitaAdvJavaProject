@@ -34,7 +34,7 @@ public class Address {
 	/**
 	 * @param uid unique id
 	 * @param addr address
-	 * @param Identity owner
+	 * @param identity owner
 	 */
 	public Address(Long uid, String addr, Identity identity) {
 		super();
@@ -53,7 +53,7 @@ public class Address {
 
 	/**
 	 * Set uid
-	 * @param uid
+	 * @param uid unique id
 	 */
 	public void setUid(Long uid) {
 		this.uid = uid;
@@ -85,7 +85,7 @@ public class Address {
 
 	/**
 	 * Set identity
-	 * @param identity
+	 * @param identity identity
 	 */
 	public void setIdentity(Identity identity) {
 		this.identity = identity;

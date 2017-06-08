@@ -22,7 +22,9 @@ public class Configuration {
 	
 	/**
 	 * Default constructor
-	 * @param addr search address criteria
+	 * @throws java.io.FileNotFoundException
+	 * @throws java.io.IOException
+	 * 
 	 */
 	public Configuration() throws FileNotFoundException, IOException {
 		
@@ -35,6 +37,8 @@ public class Configuration {
 	
 	/**
 	 * Singleton constructor
+	 * @throws java.io.FileNotFoundException
+	 * @throws java.io.IOException
 	 * @return inst instance of this class
 	 */
 	public static Configuration getInstance() throws FileNotFoundException, IOException{

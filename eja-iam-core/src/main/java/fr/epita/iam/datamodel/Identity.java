@@ -63,7 +63,7 @@ public class Identity {
 	 * @param password password
 	 * @param email email
 	 * @param dob date of birth
-	 * @param isAdmin is identity the admin?
+	 * @param role is identity the admin?
 	 */
 	public Identity(Long uid, String displayName, String password, String email,String dob, String role) {
 		
@@ -170,7 +170,7 @@ public class Identity {
 	
 	/**
 	 * Set role
-	 * @param role
+	 * @param role admin or user
 	 */
 	public void setRole(String role) {
 		this.role = role;

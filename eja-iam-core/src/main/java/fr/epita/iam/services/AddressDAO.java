@@ -33,7 +33,7 @@ public class AddressDAO implements DAO<Address> {
 	
 	/**
 	 * Create new address
-	 * @param address new address
+	 * @param addr new address
 	 */
 	public void write(Address addr) {
 		
@@ -47,7 +47,7 @@ public class AddressDAO implements DAO<Address> {
 	
 	/**
 	 * Update existing address
-	 * @param address updated address
+	 * @param addr updated address
 	 */
 	public void update(Address addr) {
 		
@@ -61,7 +61,7 @@ public class AddressDAO implements DAO<Address> {
 	
 	/**
 	 * Delete/Erase address
-	 * @param address address to be deleted
+	 * @param addr address to be deleted
 	 */
 	public void erase(Address addr) {
 		
@@ -76,7 +76,7 @@ public class AddressDAO implements DAO<Address> {
 	
 	/**
 	 * Search address
-	 * @param address address pattern criteria
+	 * @param addr address pattern criteria
 	 */
 	public List<Address> search(String addr) {
 		

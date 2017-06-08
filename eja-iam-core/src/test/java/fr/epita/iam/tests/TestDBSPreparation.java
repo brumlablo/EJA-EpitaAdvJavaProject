@@ -49,11 +49,12 @@ public class TestDBSPreparation {
 		session.close();
 		
 		//DBS preparation
-		Identity identity1 = new Identity(null, "bbbb","1234","barbora.bbbb@gmail.com","1955-10-05", "admin");
+		Identity identity1 = new Identity(null, "admin","1234","barbora.bbbb@gmail.com","1955-10-05", "admin");
 		
-		Identity identity2 = new Identity(null, "karel","haha","karel@tradada.com","1993-04-16");
+		Identity identity2 = new Identity(null, "admin2","1234","adminkarel@tradada.com","1993-04-16", "admin");
 		Identity identity3 = new Identity(null, "blabla","5678","16468464@troll.net","1955-10-16");	
 		Identity identity4 = new Identity(null, "eva","eva123","eva@kra.cz","1968-04-11");
+		Identity identity5 = new Identity(null, "thomas","password","whee@whee.com","1968-04-11");
 		
 		//creation of identities
 		dao.write(identity1);
@@ -61,11 +62,12 @@ public class TestDBSPreparation {
 		dao.write(identity2);
 		dao.write(identity3);
 		dao.write(identity4);
+		dao.write(identity5);
 		
 		List<Identity> result = new ArrayList<Identity>();
 		result = dao.listAll();
 		Assert.assertTrue(! result.isEmpty());
-		Assert.assertEquals(result.size(), 4 );
+		Assert.assertEquals(result.size(), 5 );
 		LOGGER.info("DBS successfully prepared,  I wish you happy UI clickity clicking :)...");
 	}
 
